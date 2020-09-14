@@ -92,7 +92,7 @@ export const deleteEmployeeCertificate = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getCertificatesTracking = (req, res) => {
+export const getCertificatesHistory = (req, res) => {
   res.send('Gets the tracking list of employees certificates');
 }
 
@@ -102,6 +102,6 @@ export const getCertificatesTracking = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getCertificatesHistory = (req, res) => {
+export const getCertificateProviders = (req, res) => {
   res.send('Gets the tracking list of employees certificates');
 }

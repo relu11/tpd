@@ -3,35 +3,41 @@ class EmployeeSkillsService {
    * Adds a new employee skill
    * @param {Object} _skillData - The data of the new skill
    * @param {String} _employeeId - The ID of the employee
+   * @returns {Object} Employee skill data
    */
-  addEmployeeSkill(_skillData, _employeeId) { /* */ }
+  static addEmployeeSkill(_skillData, _employeeId) { /* */ }
 
   /**
    * Updates employee skill data
    * @param {Object} _skillData - Modified Skill Data
    * @param {Number} _skillData._skillId - The ID of the skill to update
+   * @returns {Object} Employee skill data after modification
    */
-  updateEmployeeSkill(_skillData, _employeeId) { /* */ }
+  static updateEmployeeSkill(_skillData, _employeeId) { /* */ }
 
   /**
    * Deletes an employee skill
    * @param {Number} _skillId - The skill id
    * @param {String} _employeeId - The ID of the employee
+   * @returns {Number} ID of deleted skill
    */
-  deleteEmployeeSkill(_skillId, _employeeId) { /* */ }
+  static deleteEmployeeSkill(_skillId, _employeeId) { /* */ }
 
   /**
    * Gets an employee skill data
    * @param {Number} _skillId - The skill id
    * @param {String} _employeeId - The ID of the employee
+   * @returns {Object} Skill data
    */
-  getEmployeeSkill(_skillId, _employeeId) { /* */ }
+  static getEmployeeSkill(_skillId, _employeeId) { /* */ }
 
   /**
    * Gets all the skills of an employee
-   * @param {String} _employeeId - The ID of the employee
+   * @param {Object} _filters - Filters for retireved data
+   * @param {Object} _filters._employeeId - The ID of the employee
+   * @returns {Object[]} All skills data
    */
-  getAllEmployeeSkills(_employeeId) { /* */ }
+  static getAllEmployeesSkills(_filters) { /* */ }
 }
 
 export default EmployeeSkillsService;

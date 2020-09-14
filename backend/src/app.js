@@ -5,6 +5,9 @@ import indexRouter from './routes/index';
 import releaseRequestsRouter from './routes/releaseRequests';
 import resourceRequestRouter from './routes/resourceRequest';
 import skillsRouter from './routes/skills';
+import certificatesRouter from './routes/certificates';
+import trainingsRouter from './routes/trainings';
+import employeesRouter from './routes/employees';
 
 const app = express();
 app.use(logger('dev'));
@@ -15,6 +18,9 @@ app.use('/', indexRouter);
 app.use('/requests/release', releaseRequestsRouter);
 app.use('/requests/resource', resourceRequestRouter);
 app.use('/skills', skillsRouter);
+app.use('/certificates', certificatesRouter);
+app.use('/trainings', trainingsRouter);
+app.use('/employees', employeesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

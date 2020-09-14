@@ -1,15 +1,15 @@
 import express from 'express';
 import {
   getAllCertificates, addCertificate, editCertificate, deleteCertificate, getEmployeeCertificates,
-  addEmployeeCertificate, editEmployeeCertificate, deleteEmployeeCertificate,
-  getCertificatesTracking, getCertificatesHistory
-} from '../controllers/certificates';
+  addEmployeeCertificate, editEmployeeCertificate, deleteEmployeeCertificate, getCertificatesHistory
+} from '../controllers';
 
 const router = express.Router();
 
 /**
  * Certificates List
  * @Authorization [TPD]
+ * @RequestQueryParameters [filters]
  * @Response Certificates List
  */
 router.get('/', getAllCertificates)
@@ -71,17 +71,19 @@ router.patch('/my/:certificateId', editEmployeeCertificate)
 router.delete('/my/:certificateId', deleteEmployeeCertificate)
 
 /**
- * Employees Certificates Tracking
- * @Authorization [TPD]
- * @Response List of current employees' certificates
- */
-router.get('/tracking/current', getCertificatesTracking)
-
-/**
  * Employees Certificates History
  * @Authorization [TPD]
+ * @RequestQueryParameters [filters]
  * @Response List of history of employees' certificates
  */
 router.get('/tracking/history', getCertificatesHistory)
+
+/**
+ * Employees Certificate Providers List
+ * @Authorization [TPD]
+ * @RequestQueryParameters [filters]
+ * @Response List of Certificate Providers
+ */
+router.get('/providers ', getCertificatesHistory)
 
 export default router;

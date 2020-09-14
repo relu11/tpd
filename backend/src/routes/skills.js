@@ -2,7 +2,7 @@ import express from 'express';
 import {
   getAllSkills, addSkill, editSkill, deleteSkill, getEmployeeSkills, addEmployeeSkill,
   editEmployeeSkill, deleteEmployeeSkill, getSkillsTracking, getSkillsHistory
-} from '../controllers/skills';
+} from '../controllers';
 
 const router = express.Router();
 
