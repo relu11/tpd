@@ -1,5 +1,7 @@
-import express from 'express';
-
+import express from "express";
+import dbConnection from "../db";
+import { DATABASE_URL } from "../config";
+import { loggedIn, tpdOnly, managerOnly } from "../services/Authorization";
 const router = express.Router();
 
 /**
@@ -8,7 +10,15 @@ const router = express.Router();
  * @RequestQueryParameters [filters]
  * @Response Employee List
  */
-router.get('/')
+router.get("/", loggedIn, tpdOnly, (req, res) => {
+  console.log(DATABASE_URL);
+  var sql = "select * from employees_profiles";
+
+  dbConnection.query(sql, function (err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
+});
 
 /**
  * Get employee data
@@ -16,7 +26,7 @@ router.get('/')
  * @RequestParameters Employee ID
  * @Response Employee data
  */
-router.get('/:employeeId');
+router.get("/:employeeId");
 
 /**
  * Edit employee assignment
@@ -25,7 +35,7 @@ router.get('/:employeeId');
  * @RequestBody Updated Data
  * @Response Employee profile after modification
  */
-router.patch('/:employeeId/assignments/:assignmentId');
+router.patch("/:employeeId/assignments/:assignmentId");
 
 /**
  * Add employee assignment
@@ -34,7 +44,7 @@ router.patch('/:employeeId/assignments/:assignmentId');
  * @RequestBody Updated Data
  * @Response Employee profile after modification
  */
-router.post('/:employeeId/assignments');
+router.post("/:employeeId/assignments");
 
 /**
  * Delete employee assignment
@@ -42,7 +52,7 @@ router.post('/:employeeId/assignments');
  * @RequestParameters [Employee ID, Assignment ID]
  * @Response Employee profile after modification
  */
-router.delete('/:employeeId/assignments/:assignmentId');
+router.delete("/:employeeId/assignments/:assignmentId");
 
 /**
  * Export employee list
@@ -50,6 +60,6 @@ router.delete('/:employeeId/assignments/:assignmentId');
  * @RequestQueryParameters [filters]
  * @Response All employee list List
  */
-router.get('/export');
+router.get("/export");
 
 export default router;
