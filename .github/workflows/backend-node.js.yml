@@ -13,8 +13,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      PROJECT_DIR: $GITHUB_WORKSPACE/backend
+    
+    defaults:
+      run:
+        working-directory: backend
 
     strategy:
       matrix:
