@@ -35,7 +35,6 @@ app.use((err, req, res, _) => {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;
