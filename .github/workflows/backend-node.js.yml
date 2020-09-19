@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend
 
     strategy:
       matrix:
@@ -24,7 +26,5 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        working-directory: backend
-    - run: cd backend
     - run: npm ci
     - run: npm test
