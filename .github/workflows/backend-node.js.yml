@@ -23,10 +23,29 @@ jobs:
         node-version: [10.x, 12.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm test
+      - uses: actions/checkout@v2
+      - name: Setup MySQL
+        # You may pin to the exact commit or the version.
+        # uses: mirromutth/mysql-action@de1fba8b3f90ce8db80f663a7043be3cf3231248
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          # The port of host
+          host port: 3306 # optional, default is 3306
+          # The port of container
+          container port: 3306 # optional, default is 3306
+          # MYSQL_ROOT_PASSWORD - root superuser password
+          mysql root password: admin 
+          # MYSQL_DATABASE - name for the default database that is created
+          mysql database: tpd # optional, default is 
+          # MYSQL_USER - create the specified user with superuser power for created database
+          mysql user: admin # optional, default is 
+          # MYSQL_PASSWORD - specified superuser password which user is power for created database
+          mysql password: admin # optional, default is 
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        env:
+          DATABASE_URL: mysql://admin:admin@localhost:3306/tpd
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
