@@ -1,26 +1,63 @@
-import React from 'react';
-import { ThemeProvider } from '@material-ui/core';
-import theme from './app/theme';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import Drawer from './features/navigation/Drawer';
-import Navbar from './features/navigation/Navbar';
-import Login from './features/auth/Login';
+import React from "react";
+import { makeStyles, ThemeProvider } from "@material-ui/core";
+import theme from "./app/theme";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
+import Drawer from "./features/navigation/Drawer";
+import Navbar from "./features/navigation/Navbar";
+import links from "./features/navigation/links";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+    },
+    toolbar: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+    },
+}));
 
 function App() {
+    const classes = useStyles();
     return (
         <BrowserRouter>
             <ThemeProvider theme={theme}>
-                <div className="App">
-                    <Drawer />
+                <div className={classes.root}>
                     <Navbar />
-                    <Switch>
-                        <Route exact path='/'>
-                            Hello, world!
-                        </Route>
-                        <Route exact path='/login'>
-                            <Login />
-                        </Route>
-                    </Switch>
+                    <Drawer />
+                    <main className={classes.content}>
+                        <div className={classes.toolbar} />
+                        <Switch>
+                            {links
+                                .filter((l) => l.component)
+                                .map((l) => (
+                                    <Route exact path={l.path}>
+                                        <l.component />
+                                    </Route>
+                                ))}
+                            {links
+                                .filter((l) => l.children)
+                                .map((l) =>
+                                    l.children
+                                        .filter((subLink) => subLink.component)
+                                        .map((sublink) => (
+                                            <Route exact path={sublink.path}>
+                                                <l.component />
+                                            </Route>
+                                        ))
+                                )}
+                            <Route exact path="/">
+                                Hello, world!
+                            </Route>
+                        </Switch>
+                    </main>
                 </div>
             </ThemeProvider>
         </BrowserRouter>
