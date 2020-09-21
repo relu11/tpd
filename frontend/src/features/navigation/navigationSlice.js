@@ -5,6 +5,7 @@ export const navigationSlice = createSlice({
     initialState: {
         activeLink: "/",
         drawerOpen: true,
+        customDrawerAction: false,
     },
     reducers: {
         setActiveLink: (state, action) => {
@@ -12,6 +13,7 @@ export const navigationSlice = createSlice({
         },
         toggleDrawerOpen: (state) => {
             state.drawerOpen = !state.drawerOpen;
+            state.customDrawerAction = true;
         },
         openDrawer: (state) => {
             state.drawerOpen = true;
