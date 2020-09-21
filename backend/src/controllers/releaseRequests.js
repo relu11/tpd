@@ -57,7 +57,11 @@ export const addReleaseRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getReleaseRequest = (req, res) => {
-  res.send("Get a Release Request");
+  const user = ReleaseRequest.getReleaseRequest(req.params.requestId, function (
+    data
+  ) {
+    res.send(data);
+  });
 };
 
 /**
@@ -68,7 +72,24 @@ export const getReleaseRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editReleaseRequest = (req, res) => {
-  res.send("Edit a Release Requests");
+  var releaseRequest = new ReleaseRequest(
+    req.body.managerName,
+    req.body.employeeName,
+    req.body.employeeID,
+    req.body.employeeTitle,
+    req.body.employeeFunction,
+    req.body.releaseDate,
+    req.body.propability,
+    req.body.releasePercentage,
+    req.body.releaseReason,
+    req.body.leaving,
+    req.body.requestStatus
+  );
+  releaseRequest.referenceNumber = req.params.requestId;
+  releaseRequest.editReleaseRequest(function () {
+    res.status(200);
+    res.send("done");
+  });
 };
 
 /**
