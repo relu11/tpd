@@ -76,7 +76,7 @@ class ReleaseRequest extends Model {
     dbConnection.query(sql, function (err, result) {
       console.log(result);
       if (err) throw err;
-      callback();
+      callback(result);
     });
   }
   static getReleaseRequest(id, callback) {
