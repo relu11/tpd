@@ -17,7 +17,7 @@ class ReleaseRequest extends Model {
   ) {
     super("release_requests");
 
-    this.referenceNumber = this.assignRefrenceNumber;
+    this.referenceNumber = this.assignRefrenceNumber();
     this.managerName = managerName;
     this.employeeName = employeeName;
     this.employeeID = employeeID;

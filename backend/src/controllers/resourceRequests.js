@@ -1,5 +1,6 @@
-import express from 'express';
-
+import express from "express";
+import ReleaseRequest from "../models/ReleaseRequest";
+import ResourceRequest from "../models/ResourceRequest";
 /**
  * Gets all resource requests
  * @param {express.Request} req - Request Object
@@ -7,8 +8,10 @@ import express from 'express';
  * @param {express.Response} res - Response Object
  */
 export const getAllResourceRequests = (req, res) => {
-  res.send('Get All Resource Requests');
-}
+  ResourceRequest.getResourceRequests(function (data) {
+    res.send(data);
+  });
+};
 
 /**
  * Exports resource requests to excel file
@@ -17,8 +20,8 @@ export const getAllResourceRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const exportResourceRequests = (req, res) => {
-  res.send('Export All Resource Requests');
-}
+  res.send("Export All Resource Requests");
+};
 
 /**
  * Adds a new resource request
@@ -28,8 +31,28 @@ export const exportResourceRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const addResourceRequest = (req, res) => {
-  res.send('Add a Resource Request');
-}
+  var resourceRequest = new ResourceRequest(
+    req.body.managerName,
+    req.body.employeeFunction,
+    req.body.title,
+    req.body.startDate,
+    req.body.endDate,
+    req.body.propability,
+    req.body.percentage,
+    req.body.status,
+    req.body.coreTeamMember,
+    req.body.replacement,
+    req.body.replecementFor,
+    req.body.requestsCount,
+    req.body.relatedOppoortunity,
+    req.body.comments,
+    req.body.assignedResource,
+    req.body.actualPercentage
+  );
+  resourceRequest.addResourceRequest(function () {
+    res.send("done");
+  });
+};
 
 /**
  * Gets a resource request
@@ -39,8 +62,10 @@ export const addResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getResourceRequest = (req, res) => {
-  res.send('Get a Resource Request');
-}
+  ResourceRequest.getResourceRequest(req.params.requestId, function (data) {
+    res.send(data);
+  });
+};
 
 /**
  * Edits a resource request
@@ -50,8 +75,30 @@ export const getResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editResourceRequest = (req, res) => {
-  res.send('Edit a Resource Requests');
-}
+  var resourceRequest = new ResourceRequest(
+    req.body.managerName,
+    req.body.employeeFunction,
+    req.body.title,
+    req.body.startDate,
+    req.body.endDate,
+    req.body.propability,
+    req.body.percentage,
+    req.body.status,
+    req.body.coreTeamMember,
+    req.body.replacement,
+    req.body.replecementFor,
+    req.body.requestsCount,
+    req.body.relatedOppoortunity,
+    req.body.comments,
+    req.body.assignedResource,
+    req.body.actualPercentage
+  );
+  resourceRequest.setReferenceNumber(req.params.requestId);
+  resourceRequest.editResourceRequest(function () {
+    res.status(200);
+    res.send("done");
+  });
+};
 
 /**
  * Gets resource requests actions
@@ -60,5 +107,5 @@ export const editResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getResourceRequestsActions = (req, res) => {
-  res.send('Get All Resource Requests Actions');
-}
+  res.send("Get All Resource Requests Actions");
+};
