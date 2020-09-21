@@ -38,7 +38,7 @@ function App() {
                             {links
                                 .filter((l) => l.component)
                                 .map((l) => (
-                                    <Route exact path={l.path}>
+                                    <Route exact path={l.path} key={l.path}>
                                         <l.component />
                                     </Route>
                                 ))}
@@ -49,7 +49,7 @@ function App() {
                                         .filter((subLink) => subLink.component)
                                         .map((sublink) => (
                                             <Route exact path={sublink.path}>
-                                                <l.component />
+                                                <sublink.component />
                                             </Route>
                                         ))
                                 )}

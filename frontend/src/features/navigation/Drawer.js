@@ -28,12 +28,17 @@ function Drawer() {
 
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const isCustomDrawerAction = useSelector(
+        (state) => state.nav.customDrawerAction
+    );
 
     useEffect(() => {
-        if (isSmallScreen && open) {
-            dispatch(closeDrawer());
-        } else if (!isSmallScreen && !open) {
-            dispatch(openDrawer());
+        if (!isCustomDrawerAction) {
+            if (isSmallScreen && open) {
+                dispatch(closeDrawer());
+            } else if (!isSmallScreen && !open) {
+                dispatch(openDrawer());
+            }
         }
     });
 

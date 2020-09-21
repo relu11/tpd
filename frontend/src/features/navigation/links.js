@@ -6,6 +6,10 @@ import BulbIcon from "@material-ui/icons/WbIncandescentOutlined";
 import CardMembershipIcon from "@material-ui/icons/CardMembershipOutlined";
 import AccountCircleIcon from "@material-ui/icons/AccountCircleOutlined";
 import GroupIcon from "@material-ui/icons/GroupOutlined";
+import ReleaseRequests from "../releaseRequests/ReleaseRequests";
+import AddReleaseRequest from "../releaseRequests/AddReleaseRequest";
+import ResourceRequests from "../resourceRequests/ResourceRequests";
+import AddResourceRequest from "../resourceRequests/AddResourceRequest";
 /**
  * Links for routing and navigation
  * @type {{ id: string, path?: String, component?: React.Component, inDrawer: boolean, title: String, children?: Object[], parent?: boolean, roles: ['tpd' | 'manager' | 'employee'], icon?: any }[]}
@@ -34,6 +38,7 @@ const links = [
                 parent: "talent-requests",
                 roles: ["manager", "tpd"],
                 icon: UnarchiveIcon,
+                component: ReleaseRequests,
             },
             {
                 id: "resource-requests",
@@ -42,7 +47,8 @@ const links = [
                 title: "Resource Requests",
                 parent: "talent-requests",
                 roles: ["manager", "tpd"],
-                icon: MoveToInboxIcon
+                icon: MoveToInboxIcon,
+                component: ResourceRequests,
             },
         ],
     },
@@ -52,6 +58,7 @@ const links = [
         inDrawer: false,
         title: "Add Release Request",
         roles: ["tpd", "manager"],
+        component: AddReleaseRequest,
     },
     {
         id: "edit-release-request",
@@ -66,6 +73,7 @@ const links = [
         inDrawer: false,
         title: "Add Resource Request",
         roles: ["manager", "tpd"],
+        component: AddResourceRequest,
     },
     {
         id: "edit-resource-request",
@@ -189,7 +197,7 @@ const links = [
         inDrawer: true,
         title: "Employees",
         role: ["tpd"],
-        icon: GroupIcon
+        icon: GroupIcon,
     },
     {
         id: "edit-employee",
