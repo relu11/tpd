@@ -2,7 +2,7 @@ import Model from "./Model";
 
 class ResourceRequestSkills extends Model {
   constructor(skillID, requestReferenceNumber, category, subCategory) {
-    super('');
+    super("");
 
     this.skillID = skillID;
     this.requestReferenceNumber = requestReferenceNumber;
