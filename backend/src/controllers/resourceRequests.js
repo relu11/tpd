@@ -1,6 +1,6 @@
-import express from "express";
-import ReleaseRequest from "../models/ReleaseRequest";
-import ResourceRequest from "../models/ResourceRequest";
+import express from 'express';
+import ReleaseRequest from '../models/ReleaseRequest';
+import ResourceRequest from '../models/ResourceRequest';
 /**
  * Gets all resource requests
  * @param {express.Request} req - Request Object
@@ -8,8 +8,8 @@ import ResourceRequest from "../models/ResourceRequest";
  * @param {express.Response} res - Response Object
  */
 export const getAllResourceRequests = (req, res) => {
-  ResourceRequest.getResourceRequests(function (data) {
-    res.send(data);
+  ResourceRequest.getResourceRequests(requests => {
+    res.send({ requests });
   });
 };
 
@@ -20,7 +20,7 @@ export const getAllResourceRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const exportResourceRequests = (req, res) => {
-  res.send("Export All Resource Requests");
+  res.send('Export All Resource Requests');
 };
 
 /**
@@ -31,7 +31,7 @@ export const exportResourceRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const addResourceRequest = (req, res) => {
-  var resourceRequest = new ResourceRequest(
+  const resourceRequest = new ResourceRequest(
     req.body.managerName,
     req.body.employeeFunction,
     req.body.title,
@@ -49,8 +49,8 @@ export const addResourceRequest = (req, res) => {
     req.body.assignedResource,
     req.body.actualPercentage
   );
-  resourceRequest.addResourceRequest(function () {
-    res.send("done");
+  resourceRequest.addResourceRequest(() => {
+    res.send('done');
   });
 };
 
@@ -62,7 +62,7 @@ export const addResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getResourceRequest = (req, res) => {
-  ResourceRequest.getResourceRequest(req.params.requestId, function (data) {
+  ResourceRequest.getResourceRequest(req.params.requestId, data => {
     res.send(data);
   });
 };
@@ -75,7 +75,7 @@ export const getResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editResourceRequest = (req, res) => {
-  var resourceRequest = new ResourceRequest(
+  const resourceRequest = new ResourceRequest(
     req.body.managerName,
     req.body.employeeFunction,
     req.body.title,
@@ -94,9 +94,9 @@ export const editResourceRequest = (req, res) => {
     req.body.actualPercentage
   );
   resourceRequest.setReferenceNumber(req.params.requestId);
-  resourceRequest.editResourceRequest(function () {
+  resourceRequest.editResourceRequest(() => {
     res.status(200);
-    res.send("done");
+    res.send('done');
   });
 };
 
@@ -107,5 +107,5 @@ export const editResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getResourceRequestsActions = (req, res) => {
-  res.send("Get All Resource Requests Actions");
+  res.send('Get All Resource Requests Actions');
 };

@@ -1,6 +1,7 @@
 import * as createError from "http-errors";
 import express from "express";
 import logger from "morgan";
+import cors from "cors";
 import indexRouter from "./routes/index";
 import releaseRequestsRouter from "./routes/releaseRequests";
 import resourceRequestRouter from "./routes/resourceRequest";
@@ -14,6 +15,7 @@ const app = express();
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/requests/release", releaseRequestsRouter);
@@ -37,7 +39,6 @@ app.use((err, req, res, _) => {
 
   // render the error page
   res.status(err.status || 500);
-
 });
 
 module.exports = app;

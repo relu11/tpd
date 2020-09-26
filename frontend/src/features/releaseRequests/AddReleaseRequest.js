@@ -1,147 +1,208 @@
-import React, { useState } from "react";
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
 import {
-    clearSubmittedStatus,
-    postReleaseRequest,
-} from "../releaseRequests/releaseRequestsSlice";
-import { Redirect } from "react-router-dom";
+    Button,
+    Checkbox,
+    FormControlLabel,
+    Grid,
+    makeStyles,
+    TextField,
+    Typography,
+} from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { postReleaseRequest } from '../releaseRequests/releaseRequestsSlice';
+import { Redirect } from 'react-router-dom';
+import {
+    KeyboardDatePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     formField: {
         marginTop: theme.spacing(4),
         // marginRight: theme.spacing(2),
-        display: "block",
+        display: 'block',
     },
 }));
 
 function AddReleaseRequest() {
-    const [managerName, setManagerName] = useState("");
-    const [employeeID, setEmployeeID] = useState("");
-    const [employeeFunction, SetemployeeFunction] = useState("");
-    const [probability, setProbability] = useState("");
-    const [employeeName, setEmployeeName] = useState("");
-    const [employeeTitle, setEmployeeTitle] = useState("");
-    const [releaseDate, setReleaseDate] = useState(new Date().toLocaleString());
-    const [releasePercentage, setReleasePercentage] = useState("");
-    const [releaseReason, setReleaseReason] = useState("");
+    const [managerName, setManagerName] = useState('');
+    const [employeeID, setEmployeeID] = useState('');
+    const [employeeFunction, SetemployeeFunction] = useState('');
+    const [probability, setProbability] = useState('');
+    const [employeeName, setEmployeeName] = useState('');
+    const [employeeTitle, setEmployeeTitle] = useState('');
+    const [releaseDate, setReleaseDate] = useState(new Date().toDateString());
+    const [releasePercentage, setReleasePercentage] = useState('');
+    const [releaseReason, setReleaseReason] = useState('');
     const [leaving, setLeaving] = useState(false);
 
-    const submitted = useSelector((state) => state.release.submitted);
+    const submitted = useSelector(state => state.release.submitted);
     const dispatch = useDispatch();
 
     const classes = useStyles();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault();
+        let release_date = new Date(releaseDate);
+        release_date = `${release_date.getFullYear()}-${release_date.getMonth()}-${release_date.getDate()}`;
         const data = {
-            managerName,
-            employeeID,
-            employeeFunction,
+            manager_name: managerName,
+            employee_id: employeeID,
+            function: employeeFunction,
             probability,
-            employeeName,
-            employeeTitle,
-            releaseDate,
-            releasePercentage,
-            releaseReason,
-            referenceNumber: 10,
+            employee_name: employeeName,
+            employee_title: employeeTitle,
+            release_date,
+            release_percentage: releasePercentage,
+            release_reason: releaseReason,
+            request_status: 'open',
+            leaving,
         };
         console.log(data);
         dispatch(postReleaseRequest(data));
     };
 
+    const handleReleaseDateChange = date => {
+        date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        setReleaseDate(date);
+    };
+
     const renderRedirect = () => {
         if (submitted) {
-            return <Redirect to="/requests/release" />;
+            return <Redirect to='/requests/release' />;
         }
     };
     return (
         <div>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Typography variant='h6'>Add Release Request</Typography>
+                <form onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item sm={6}>
+                            <TextField
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={managerName}
+                                label='Manager'
+                                onChange={e => setManagerName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={employeeName}
+                                label='Employee Name'
+                                onChange={e => setEmployeeName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={employeeID}
+                                label='Employee ID'
+                                onChange={e => setEmployeeID(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={employeeTitle}
+                                label='Employee Title'
+                                onChange={e => setEmployeeTitle(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={employeeFunction}
+                                label='Function'
+                                onChange={e =>
+                                    SetemployeeFunction(e.target.value)
+                                }
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <KeyboardDatePicker
+                                variant='inline'
+                                format='dd/MM/yyyy'
+                                margin='normal'
+                                label='Release Date'
+                                value={new Date(releaseDate)}
+                                onChange={handleReleaseDateChange}
+                                KeyboardButtonProps={{
+                                    name: 'release_date',
+                                    'aria-label': 'choose date',
+                                }}
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                type='number'
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={probability}
+                                label='Probability'
+                                onChange={e => setProbability(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                type='number'
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={releasePercentage}
+                                label='Percentage'
+                                onChange={e =>
+                                    setReleasePercentage(e.target.value)
+                                }
+                            />
+                        </Grid>
+                        <Grid item sm={6}>
+                            <TextField
+                                className={classes.formField}
+                                size='small'
+                                variant='outlined'
+                                value={releaseReason}
+                                label='Release Reason'
+                                onChange={e => setReleaseReason(e.target.value)}
+                            />
+                        </Grid>
+                    </Grid>
+                    <FormControlLabel
+                        className={classes.formField}
+                        control={
+                            <Checkbox
+                                checked={leaving}
+                                onChange={e => setLeaving(e.target.checked)}
+                                name='leaving'
+                            />
+                        }
+                        label='Leaving?'
+                    />
+                    <Button
+                        className={classes.formField}
+                        color='primary'
+                        variant='outlined'
+                        type='submit'
+                        size='small'
+                    >
+                        Submit
+                    </Button>
+                </form>
+            </MuiPickersUtilsProvider>
             {renderRedirect()}
-            <Typography variant="h6">Add Release Request</Typography>
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={managerName}
-                    label="Manager"
-                    onChange={(e) => setManagerName(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={employeeName}
-                    label="Release Name"
-                    onChange={(e) => setEmployeeName(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={employeeID}
-                    label="Employee ID"
-                    onChange={(e) => setEmployeeID(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={employeeTitle}
-                    label="Employee Title"
-                    onChange={(e) => setEmployeeTitle(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={employeeFunction}
-                    label="Function"
-                    onChange={(e) => SetemployeeFunction(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={releaseDate}
-                    label="Release Date"
-                    onChange={(e) => setReleaseDate(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={probability}
-                    label="Probability"
-                    onChange={(e) => setProbability(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={releasePercentage}
-                    label="Percentage"
-                    onChange={(e) => setReleasePercentage(e.target.value)}
-                />
-                <TextField
-                    className={classes.formField}
-                    size="small"
-                    variant="outlined"
-                    value={releaseReason}
-                    label="Release Reason"
-                    onChange={(e) => setReleaseReason(e.target.value)}
-                />
-                <Button
-                    className={classes.formField}
-                    color="primary"
-                    variant="outlined"
-                    type="submit"
-                    size="small"
-                >
-                    Submit
-                </Button>
-            </form>
         </div>
     );
 }

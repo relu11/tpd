@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import {
   getAllReleaseRequests,
   exportReleaseRequests,
@@ -6,8 +6,9 @@ import {
   getReleaseRequest,
   editReleaseRequest,
   getReleaseRequestsActions,
-} from "../controllers";
-import { loggedIn, tpdOnly, managerOnly } from "../services/Authorization";
+  deleteReleaseRequest,
+} from '../controllers';
+import { loggedIn, tpdOnly, managerOnly } from '../services/Authorization';
 
 const router = express.Router();
 
@@ -16,21 +17,21 @@ const router = express.Router();
  * @Authorization [Manager, TPD]
  * @Response Release Requests List
  */
-router.get("/", getAllReleaseRequests);
+router.get('/', getAllReleaseRequests);
 
 /**
  * Export Release Requests
  * @Authorization [Manager, TPD]
  * @Response Release Requests List
  */
-router.get("/export", exportReleaseRequests);
+router.get('/export', exportReleaseRequests);
 
 /**
  * Add Release Request
  * @Authorization [Manager, TPD]
  * @RequestBody Release Request Data
  */
-router.post("/", addReleaseRequest);
+router.post('/', addReleaseRequest);
 
 /**
  * Get a Release Request
@@ -38,7 +39,7 @@ router.post("/", addReleaseRequest);
  * @RequestParameters Request ID
  * @Response Release request data
  */
-router.get("/:requestId", getReleaseRequest);
+router.get('/:requestId', getReleaseRequest);
 
 /**
  * Edit a Release Request
@@ -47,13 +48,13 @@ router.get("/:requestId", getReleaseRequest);
  * @RequestBody Updated Data
  * @Response Release request after modification
  */
-router.patch("/:requestId", editReleaseRequest);
+router.patch('/:requestId', editReleaseRequest);
 
 /**
  * Get Release Request Actions
  * @Authorization [TPD]
  * @Response All Reqlease Request Actions
  */
-router.get("/actions", getReleaseRequestsActions);
+router.get('/actions', getReleaseRequestsActions);
 
 export default router;
