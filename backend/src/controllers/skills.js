@@ -1,5 +1,7 @@
 import express from "express";
+
 import SkillService from "../services/SkillService";
+import EmployeeSkillsService from "../services/EmployeeSkillsService";
 /**
  * Gets all skills
  * @param {express.Request} req - Request Object
@@ -56,8 +58,9 @@ export const deleteSkill = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getEmployeeSkills = (req, res) => {
-  res.send("Gets all skills of an employee");
+export const getEmployeeSkills = async (req, res) => {
+  const skills = await EmployeeSkillsService.getAllEmployeesSkills(req.user.id);
+  res.send({ skills });
 };
 
 /**

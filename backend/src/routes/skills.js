@@ -12,6 +12,7 @@ import {
   getSkillsHistory,
   getSkill,
 } from "../controllers";
+import { loggedIn } from "../services/Authorization";
 
 const router = express.Router();
 
@@ -21,6 +22,13 @@ const router = express.Router();
  * @Response Skills List
  */
 router.get("/", getAllSkills);
+
+/**
+ * Your Skills - Returns the skills of the employee
+ * @Authorization [Employee]
+ * @Response Skills List
+ */
+router.get("/my", loggedIn, getEmployeeSkills);
 /**
  * Skill
  * @Authorization [TPD]
@@ -54,19 +62,12 @@ router.patch("/:skillId", editSkill);
 router.delete("/:skillId", deleteSkill);
 
 /**
- * Your Skills - Returns the skills of the employee
- * @Authorization [Employee]
- * @Response Skills List
- */
-router.get("/my/", getEmployeeSkills);
-
-/**
  * Add Employee Skill
  * @Authorization [Employee]
  * @RequestBody New Skill Data
  * @Response Added Skill
  */
-router.post("/my/", addEmployeeSkill);
+router.post("/my", addEmployeeSkill);
 
 /**
  * Edit Employee Skill

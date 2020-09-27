@@ -1,3 +1,5 @@
+import Employee from "../models/Employee";
+import EmployeeSkills from "../models/EmployeeSkills";
 class EmployeeSkillsService {
   /**
    * Adds a new employee skill
@@ -45,8 +47,10 @@ class EmployeeSkillsService {
    * @param {Object} _filters._employeeId - The ID of the employee
    * @returns {Object[]} All skills data
    */
-  static getAllEmployeesSkills(_filters) {
-    /* */
+  static async getAllEmployeesSkills(email) {
+    const id = await Employee.getEmployeeId(email);
+    const skills = await EmployeeSkills.getSkills(id);
+    return skills;
   }
 }
 
