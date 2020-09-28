@@ -19,9 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Filters from './Filters';
 import {
     clearAllCurrents,
-    deleteResourceRequest,
     fetchResourceRequests,
-    formatRequest,
     selectResourceRequestsState,
 } from './resourceRequestsSlice';
 import AddIcon from '@material-ui/icons/Add';
@@ -62,9 +60,6 @@ function ResourceRequests() {
         setPage(0);
     };
 
-    const handleDeleteClick = refNumber =>
-        dispatch(deleteResourceRequest(refNumber));
-
     const filterRows = rows =>
         rows.filter(r => {
             let valid = true;
@@ -95,6 +90,8 @@ function ResourceRequests() {
                         Add
                     </InfoButton>
                     <InfoButton
+                        component='a'
+                        href='http://localhost:3000/requests/resource/export'
                         size='small'
                         variant='outlined'
                         className={classes.actionButton}
@@ -147,7 +144,7 @@ function ResourceRequests() {
                                                 row.end_date
                                             ).toDateString()}
                                         </TableCell>
-                                        <TableCell>{row.probability}</TableCell>
+                                        <TableCell>{row.propability}</TableCell>
                                         <TableCell>{row.percentage}</TableCell>
                                         <TableCell>{row.status}</TableCell>
                                         <TableCell>

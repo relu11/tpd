@@ -1,5 +1,4 @@
 import express from 'express';
-import ReleaseRequest from '../models/ReleaseRequest';
 import ResourceRequest from '../models/ResourceRequest';
 /**
  * Gets all resource requests
@@ -32,22 +31,19 @@ export const exportResourceRequests = (req, res) => {
  */
 export const addResourceRequest = (req, res) => {
   const resourceRequest = new ResourceRequest(
-    req.body.managerName,
-    req.body.employeeFunction,
+    req.body.manager_name,
+    req.body.function,
     req.body.title,
-    req.body.startDate,
-    req.body.endDate,
-    req.body.propability,
+    req.body.start_date,
+    req.body.end_date,
+    req.body.probability,
     req.body.percentage,
-    req.body.status,
-    req.body.coreTeamMember,
+    req.body.core_team_member,
     req.body.replacement,
-    req.body.replecementFor,
-    req.body.requestsCount,
-    req.body.relatedOppoortunity,
-    req.body.comments,
-    req.body.assignedResource,
-    req.body.actualPercentage
+    req.body.replecement_for,
+    req.body.requests_count,
+    req.body.related_opportunity,
+    req.body.comments
   );
   resourceRequest.addResourceRequest(() => {
     res.send('done');
@@ -62,8 +58,8 @@ export const addResourceRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getResourceRequest = (req, res) => {
-  ResourceRequest.getResourceRequest(req.params.requestId, data => {
-    res.send(data);
+  ResourceRequest.getResourceRequest(req.params.requestId, request => {
+    res.send({ request });
   });
 };
 
@@ -76,27 +72,38 @@ export const getResourceRequest = (req, res) => {
  */
 export const editResourceRequest = (req, res) => {
   const resourceRequest = new ResourceRequest(
-    req.body.managerName,
-    req.body.employeeFunction,
+    req.body.manager_name,
+    req.body.function,
     req.body.title,
-    req.body.startDate,
-    req.body.endDate,
-    req.body.propability,
+    req.body.start_date,
+    req.body.end_date,
+    req.body.probability,
     req.body.percentage,
-    req.body.status,
-    req.body.coreTeamMember,
+    req.body.core_team_member,
     req.body.replacement,
-    req.body.replecementFor,
-    req.body.requestsCount,
-    req.body.relatedOppoortunity,
+    req.body.replecement_for,
+    req.body.requests_count,
+    req.body.related_oppoortunity,
     req.body.comments,
-    req.body.assignedResource,
-    req.body.actualPercentage
+    req.body.assigned_resource,
+    req.body.actual_percentage,
+    req.body.status
   );
   resourceRequest.setReferenceNumber(req.params.requestId);
   resourceRequest.editResourceRequest(() => {
-    res.status(200);
-    res.send('done');
+    if (req.body.actionChanged) {
+      resourceRequest.updateActionTaken(
+        req.body.action_taken,
+        req.body.comments,
+        () => {
+          res.status(200);
+          res.send('done');
+        }
+      );
+    } else {
+      res.status(200);
+      res.send('done');
+    }
   });
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     Button,
     ButtonGroup,
@@ -59,6 +59,8 @@ function EditReleaseRequest() {
     const classes = useStyles();
 
     const handleChange = e => {
+        if (e.target.name === 'action_taken')
+            dispatch(updateCurrentReleaseRequest({ actionChanged: true }));
         dispatch(
             updateCurrentReleaseRequest({ [e.target.name]: e.target.value })
         );

@@ -107,6 +107,7 @@ export const getResourceRequest = createAsyncThunk(
         );
         const { request } = await res.json();
         request.hasActionTaken = request.action_taken ? true : false;
+        request.actionChanged = false;
         return formatRequest(request);
     }
 );

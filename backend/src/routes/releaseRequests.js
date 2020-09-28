@@ -6,7 +6,6 @@ import {
   getReleaseRequest,
   editReleaseRequest,
   getReleaseRequestsActions,
-  deleteReleaseRequest,
 } from '../controllers';
 import { loggedIn, tpdOnly, managerOnly } from '../services/Authorization';
 
