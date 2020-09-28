@@ -95,6 +95,8 @@ function ReleaseRequests() {
                         Add
                     </InfoButton>
                     <InfoButton
+                        component='a'
+                        href='http://localhost:3000/api/requests/release/export'
                         size='small'
                         variant='outlined'
                         className={classes.actionButton}

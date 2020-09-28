@@ -91,7 +91,7 @@ function ResourceRequests() {
                     </InfoButton>
                     <InfoButton
                         component='a'
-                        href='http://localhost:3000/requests/resource/export'
+                        href='http://localhost:3000/api/requests/resource/export'
                         size='small'
                         variant='outlined'
                         className={classes.actionButton}

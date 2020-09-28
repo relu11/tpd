@@ -1,5 +1,6 @@
 import express from 'express';
 import ResourceRequest from '../models/ResourceRequest';
+const Json2csvParser = require('json2csv').Parser;
 /**
  * Gets all resource requests
  * @param {express.Request} req - Request Object
@@ -19,7 +20,36 @@ export const getAllResourceRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const exportResourceRequests = (req, res) => {
-  res.send('Export All Resource Requests');
+  const user = ResourceRequest.getResourceRequests(function (data) {
+    const jsonCustomers = JSON.parse(JSON.stringify(data));
+    const csvFields = [
+      'reference_number',
+      'manager_name',
+      'function',
+      'title',
+      'start_date',
+      'release_date',
+      'propability',
+      'percentage',
+      'status',
+      'core_team_member',
+      'replacenement',
+      'replacenement_for',
+      'requests_count',
+      'related_opportunity',
+      'comments',
+      'assigned_resource',
+      'actual_percentage',
+    ];
+    const json2csvParser = new Json2csvParser({ csvFields });
+    const csv = json2csvParser.parse(jsonCustomers);
+
+    res.attachment('ResourceRequests.csv');
+    res.type('csv');
+    res.download(csv, 'ResourceRequests.csv');
+    res.status(200);
+    res.send(csv);
+  });
 };
 
 /**
