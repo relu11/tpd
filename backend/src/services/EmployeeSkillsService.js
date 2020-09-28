@@ -1,3 +1,5 @@
+import Employee from "../models/Employee";
+import EmployeeSkills from "../models/EmployeeSkills";
 class EmployeeSkillsService {
   /**
    * Adds a new employee skill
@@ -5,7 +7,9 @@ class EmployeeSkillsService {
    * @param {String} _employeeId - The ID of the employee
    * @returns {Object} Employee skill data
    */
-  static addEmployeeSkill(_skillData, _employeeId) { /* */ }
+  static addEmployeeSkill(_skillData, _employeeId) {
+    /* */
+  }
 
   /**
    * Updates employee skill data
@@ -13,7 +17,9 @@ class EmployeeSkillsService {
    * @param {Number} _skillData._skillId - The ID of the skill to update
    * @returns {Object} Employee skill data after modification
    */
-  static updateEmployeeSkill(_skillData, _employeeId) { /* */ }
+  static updateEmployeeSkill(_skillData, _employeeId) {
+    /* */
+  }
 
   /**
    * Deletes an employee skill
@@ -21,7 +27,9 @@ class EmployeeSkillsService {
    * @param {String} _employeeId - The ID of the employee
    * @returns {Number} ID of deleted skill
    */
-  static deleteEmployeeSkill(_skillId, _employeeId) { /* */ }
+  static deleteEmployeeSkill(_skillId, _employeeId) {
+    /* */
+  }
 
   /**
    * Gets an employee skill data
@@ -29,7 +37,9 @@ class EmployeeSkillsService {
    * @param {String} _employeeId - The ID of the employee
    * @returns {Object} Skill data
    */
-  static getEmployeeSkill(_skillId, _employeeId) { /* */ }
+  static getEmployeeSkill(_skillId, _employeeId) {
+    /* */
+  }
 
   /**
    * Gets all the skills of an employee
@@ -37,7 +47,11 @@ class EmployeeSkillsService {
    * @param {Object} _filters._employeeId - The ID of the employee
    * @returns {Object[]} All skills data
    */
-  static getAllEmployeesSkills(_filters) { /* */ }
+  static async getAllEmployeesSkills(email) {
+    const id = await Employee.getEmployeeId(email);
+    const skills = await EmployeeSkills.getSkills(id);
+    return skills;
+  }
 }
 
 export default EmployeeSkillsService;

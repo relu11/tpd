@@ -1,15 +1,21 @@
-import express from 'express';
+import express from "express";
 
+import SkillService from "../services/SkillService";
+import EmployeeSkillsService from "../services/EmployeeSkillsService";
 /**
  * Gets all skills
  * @param {express.Request} req - Request Object
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getAllSkills = (req, res) => {
-  res.send('Get All Skills');
-}
-
+export const getAllSkills = async (req, res) => {
+  const skills = await SkillService.getAllSkills();
+  res.send({ skills });
+};
+export const getSkill = async (req, res) => {
+  const skill = await SkillService.getSkill(req.params.skillId);
+  res.send({ skill });
+};
 /**
  * Adds a new skill
  * @param {express.Request} req - Request Object
@@ -17,9 +23,10 @@ export const getAllSkills = (req, res) => {
  * @param {Object} req.body.skill - Skill Data
  * @param {express.Response} res - Response Object
  */
-export const addSkill = (req, res) => {
-  res.send('Adds a new skill');
-}
+export const addSkill = async (req, res) => {
+  const skill = SkillService.addSkill(req.body);
+  res.send({ skill });
+};
 
 /**
  * Edits a skill
@@ -29,8 +36,9 @@ export const addSkill = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editSkill = (req, res) => {
-  res.send('Edits a skill');
-}
+  const skill = SkillService.updateSkill(req.body);
+  res.send({ skill });
+};
 
 /**
  * Deltes a skill
@@ -40,8 +48,9 @@ export const editSkill = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const deleteSkill = (req, res) => {
-  res.send('Deltes a skill');
-}
+  const skill = SkillService.deleteSkill(req.params.skillId);
+  res.send({ skill });
+};
 
 /**
  * Gets all skills of an employee
@@ -49,9 +58,10 @@ export const deleteSkill = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getEmployeeSkills = (req, res) => {
-  res.send('Gets all skills of an employee');
-}
+export const getEmployeeSkills = async (req, res) => {
+  const skills = await EmployeeSkillsService.getAllEmployeesSkills(req.user.id);
+  res.send({ skills });
+};
 
 /**
  * Adds an employee skill
@@ -61,8 +71,8 @@ export const getEmployeeSkills = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const addEmployeeSkill = (req, res) => {
-  res.send('Adds an employee skill');
-}
+  res.send("Adds an employee skill");
+};
 
 /**
  * Edits an employee skill
@@ -72,8 +82,8 @@ export const addEmployeeSkill = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editEmployeeSkill = (req, res) => {
-  res.send('Edits an employee skill');
-}
+  res.send("Edits an employee skill");
+};
 
 /**
  * Adds an employee skill
@@ -83,8 +93,8 @@ export const editEmployeeSkill = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const deleteEmployeeSkill = (req, res) => {
-  res.send('Adds an employee skill');
-}
+  res.send("Adds an employee skill");
+};
 
 /**
  * Gets the tracking list of employees skills
@@ -93,8 +103,8 @@ export const deleteEmployeeSkill = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getSkillsTracking = (req, res) => {
-  res.send('Gets the tracking list of employees skills');
-}
+  res.send("Gets the tracking list of employees skills");
+};
 
 /**
  * Gets the tracking list of employees skills
@@ -103,5 +113,5 @@ export const getSkillsTracking = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getSkillsHistory = (req, res) => {
-  res.send('Gets the tracking list of employees skills');
-}
+  res.send("Gets the tracking list of employees skills");
+};

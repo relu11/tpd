@@ -1,8 +1,18 @@
-import express from 'express';
+import express from "express";
 import {
-  getAllSkills, addSkill, editSkill, deleteSkill, getEmployeeSkills, addEmployeeSkill,
-  editEmployeeSkill, deleteEmployeeSkill, getSkillsTracking, getSkillsHistory
-} from '../controllers';
+  getAllSkills,
+  addSkill,
+  editSkill,
+  deleteSkill,
+  getEmployeeSkills,
+  addEmployeeSkill,
+  editEmployeeSkill,
+  deleteEmployeeSkill,
+  getSkillsTracking,
+  getSkillsHistory,
+  getSkill,
+} from "../controllers";
+import { loggedIn } from "../services/Authorization";
 
 const router = express.Router();
 
@@ -11,7 +21,20 @@ const router = express.Router();
  * @Authorization [TPD]
  * @Response Skills List
  */
-router.get('/', getAllSkills)
+router.get("/", getAllSkills);
+
+/**
+ * Your Skills - Returns the skills of the employee
+ * @Authorization [Employee]
+ * @Response Skills List
+ */
+router.get("/my", loggedIn, getEmployeeSkills);
+/**
+ * Skill
+ * @Authorization [TPD]
+ * @Response Skill
+ */
+router.get("/:skillId", getSkill);
 
 /**
  * Add Skill
@@ -19,7 +42,7 @@ router.get('/', getAllSkills)
  * @RequestBody Skill Data
  * @Response Added Skill
  */
-router.post('/', addSkill)
+router.post("/", addSkill);
 
 /**
  * Ediit Skill
@@ -28,7 +51,7 @@ router.post('/', addSkill)
  * @RequestBody New Skill Data
  * @Response Modified Skill Data
  */
-router.patch('/:skillId', editSkill)
+router.patch("/:skillId", editSkill);
 
 /**
  * Delete Skill
@@ -36,14 +59,7 @@ router.patch('/:skillId', editSkill)
  * @RequestParams Skill ID
  * @Response Deleted Skill ID
  */
-router.delete('/:skillId', deleteSkill)
-
-/**
- * Your Skills - Returns the skills of the employee
- * @Authorization [Employee]
- * @Response Skills List
- */
-router.get('/my/', getEmployeeSkills)
+router.delete("/:skillId", deleteSkill);
 
 /**
  * Add Employee Skill
@@ -51,7 +67,7 @@ router.get('/my/', getEmployeeSkills)
  * @RequestBody New Skill Data
  * @Response Added Skill
  */
-router.post('/my/', addEmployeeSkill)
+router.post("/my", addEmployeeSkill);
 
 /**
  * Edit Employee Skill
@@ -59,7 +75,7 @@ router.post('/my/', addEmployeeSkill)
  * @RequestParameters skillId - The id of the skill to edit
  * @Response Skills List
  */
-router.patch('/my/:skillId', editEmployeeSkill)
+router.patch("/my/:skillId", editEmployeeSkill);
 
 /**
  * Delete Employee Skill
@@ -67,20 +83,20 @@ router.patch('/my/:skillId', editEmployeeSkill)
  * @RequestParameters skillId - The id of the skill to edit
  * @Response Skills List
  */
-router.delete('/my/:skillId', deleteEmployeeSkill)
+router.delete("/my/:skillId", deleteEmployeeSkill);
 
 /**
  * Employees Skills Tracking
  * @Authorization [TPD]
  * @Response List of current employees' skills
  */
-router.get('/tracking/current', getSkillsTracking)
+router.get("/tracking/current", getSkillsTracking);
 
 /**
  * Employees Skills History
  * @Authorization [TPD]
  * @Response List of history of employees' skills
  */
-router.get('/tracking/history', getSkillsHistory)
+router.get("/tracking/history", getSkillsHistory);
 
 export default router;
