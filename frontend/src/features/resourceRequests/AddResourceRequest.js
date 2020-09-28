@@ -65,6 +65,15 @@ function AddResourceRequest() {
 
     const handleSubmit = e => {
         e.preventDefault();
+        let startDate = new Date(start_date);
+        let endDate = new Date(end_date);
+
+        startDate = `${startDate.getFullYear()}-${
+            startDate.getMonth() + 1
+        }-${startDate.getDate()}`;
+        endDate = `${endDate.getFullYear()}-${
+            endDate.getMonth() + 1
+        }-${endDate.getDate()}`;
         const data = {
             manager_name,
             function: employeeFunction,
@@ -76,8 +85,8 @@ function AddResourceRequest() {
             probability,
             percentage,
             related_opportunity,
-            start_date,
-            end_date,
+            start_date: startDate,
+            end_date: endDate,
             comments,
         };
         dispatch(postResourceRequest(data));

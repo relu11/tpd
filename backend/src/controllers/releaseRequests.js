@@ -1,6 +1,7 @@
 import express from 'express';
+import { Parser as Json2csvParser } from 'json2csv';
 import ReleaseRequest from '../models/ReleaseRequest';
-const Json2csvParser = require('json2csv').Parser;
+
 /**
  * Gets all release requests
  * @param {express.Request} req - Request Object
@@ -20,7 +21,7 @@ export const getAllReleaseRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const exportReleaseRequests = (req, res) => {
-  const user = ReleaseRequest.getReleaseRequests(function (data) {
+  ReleaseRequest.getReleaseRequests(data => {
     const jsonCustomers = JSON.parse(JSON.stringify(data));
     const csvFields = [
       'reference_number',
