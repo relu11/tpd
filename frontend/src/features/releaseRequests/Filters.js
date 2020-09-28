@@ -1,59 +1,103 @@
-import { TextField, Typography } from "@material-ui/core";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateFilters } from "./releaseRequestsSlice";
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Select,
+    TextField,
+    Typography,
+} from '@material-ui/core';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetFilters, updateFilters } from './releaseRequestsSlice';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        marginBottom: theme.spacing(2),
+    },
+    textField: {
+        marginRight: theme.spacing(2),
+        minWidth: 120,
+    },
+}));
 
 function Filters() {
-    const dispatch = useDispatch();
-    const filters = useSelector((state) => state.release.filters);
+    const classes = useStyles();
 
-    const setFilter = (e) => {
-        console.log(e.target.name);
+    const dispatch = useDispatch();
+    const filters = useSelector(state => state.release.filters);
+
+    const setFilter = e => {
         dispatch(updateFilters({ [e.target.name]: e.target.value }));
     };
+
+    const resetAll = () => dispatch(resetFilters());
+
     return (
-        <div>
-            <Typography variant="body1">Filters:</Typography>
+        <div className={classes.root}>
+            <Typography variant='body1'>Filters:</Typography>
             <TextField
-                variant="outlined"
-                label="Manager"
-                size="small"
-                name="managerName"
-                value={filters.managerName}
+                className={classes.textField}
+                variant='outlined'
+                label='Manager'
+                size='small'
+                name='manager_name'
+                value={filters.manager_name}
                 onChange={setFilter}
             />
             <TextField
-                variant="outlined"
-                label="Employee Title"
-                size="small"
-                value={filters.employeeTitle}
-                name="employeeTitle"
+                className={classes.textField}
+                variant='outlined'
+                label='Employee Title'
+                size='small'
+                value={filters.employee_title}
+                name='employee_title'
                 onChange={setFilter}
             />
             <TextField
-                variant="outlined"
-                label="Function"
-                size="small"
-                value={filters.employeeFunction}
-                name="employeeFunction"
+                className={classes.textField}
+                variant='outlined'
+                label='Function'
+                size='small'
+                value={filters.function}
+                name='function'
                 onChange={setFilter}
             />
             <TextField
-                variant="outlined"
-                label="Employee Name"
-                size="small"
-                value={filters.employeeName}
-                name="employeeName"
+                className={classes.textField}
+                variant='outlined'
+                label='Employee Name'
+                size='small'
+                value={filters.employee_name}
+                name='employee_name'
                 onChange={setFilter}
             />
-            <TextField
-                variant="outlined"
-                label="Status"
-                size="small"
-                value={filters.requestStatus}
-                name="requestStatus"
-                onChange={setFilter}
-            />
+            <FormControl size='small'>
+                <InputLabel id='status-select-label'>Status</InputLabel>
+                <Select
+                    labelId='status-select-label'
+                    className={classes.textField}
+                    variant='outlined'
+                    value={filters.request_status}
+                    name='request_status'
+                    onChange={setFilter}
+                >
+                    <MenuItem value=''></MenuItem>
+                    <MenuItem value='open'>Open</MenuItem>
+                    <MenuItem value='cancelled'>Cancelled</MenuItem>
+                    <MenuItem value='moved'>Moved</MenuItem>
+                    <MenuItem value='left'>Left</MenuItem>
+                    <MenuItem value='booked'>Booked</MenuItem>
+                </Select>
+            </FormControl>
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => resetAll()}
+            >
+                Reset
+            </Button>
         </div>
     );
 }

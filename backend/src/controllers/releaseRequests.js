@@ -1,5 +1,6 @@
-import express from "express";
-import ReleaseRequest from "../models/ReleaseRequest";
+import express from 'express';
+import ReleaseRequest from '../models/ReleaseRequest';
+const Json2csvParser = require('json2csv').Parser;
 /**
  * Gets all release requests
  * @param {express.Request} req - Request Object
@@ -7,8 +8,8 @@ import ReleaseRequest from "../models/ReleaseRequest";
  * @param {express.Response} res - Response Object
  */
 export const getAllReleaseRequests = (req, res) => {
-  const user = ReleaseRequest.getReleaseRequests(function (data) {
-    res.send(data);
+  ReleaseRequest.getReleaseRequests(requests => {
+    res.send({ requests });
   });
 };
 
@@ -19,7 +20,31 @@ export const getAllReleaseRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const exportReleaseRequests = (req, res) => {
-  res.send("Export All Release Requests");
+  const user = ReleaseRequest.getReleaseRequests(function (data) {
+    const jsonCustomers = JSON.parse(JSON.stringify(data));
+    const csvFields = [
+      'reference_number',
+      'manager_name',
+      'employee_name',
+      'employee_id',
+      'employee_title',
+      'function',
+      'release_date',
+      'propability',
+      'release_percentage',
+      'release_reason',
+      'leaving',
+      'request_status',
+    ];
+    const json2csvParser = new Json2csvParser({ csvFields });
+    const csv = json2csvParser.parse(jsonCustomers);
+
+    res.attachment('ReleaseRequests.csv');
+    res.type('csv');
+    res.download(csv, 'ReleaseRequests.csv');
+    res.status(200);
+    res.send(csv);
+  });
 };
 
 /**
@@ -30,22 +55,21 @@ export const exportReleaseRequests = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const addReleaseRequest = (req, res) => {
-  var releaseRequest = new ReleaseRequest(
-    req.body.managerName,
-    req.body.employeeName,
-    req.body.employeeID,
-    req.body.employeeTitle,
-    req.body.employeeFunction,
-    req.body.releaseDate,
-    req.body.propability,
-    req.body.releasePercentage,
-    req.body.releaseReason,
-    req.body.leaving,
-    req.body.requestStatus
+  const releaseRequest = new ReleaseRequest(
+    req.body.manager_name,
+    req.body.employee_name,
+    req.body.employee_id,
+    req.body.employee_title,
+    req.body.function,
+    req.body.release_date,
+    req.body.probability,
+    req.body.release_percentage,
+    req.body.release_reason,
+    req.body.leaving
   );
-  releaseRequest.addReleaseRequest(function () {
+  releaseRequest.addReleaseRequest(() => {
     res.status(200);
-    res.send("done");
+    res.send('done');
   });
 };
 
@@ -57,10 +81,8 @@ export const addReleaseRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getReleaseRequest = (req, res) => {
-  const user = ReleaseRequest.getReleaseRequest(req.params.requestId, function (
-    data
-  ) {
-    res.send(data);
+  ReleaseRequest.getReleaseRequest(req.params.requestId, request => {
+    res.send({ request });
   });
 };
 
@@ -72,23 +94,35 @@ export const getReleaseRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editReleaseRequest = (req, res) => {
-  var releaseRequest = new ReleaseRequest(
-    req.body.managerName,
-    req.body.employeeName,
-    req.body.employeeID,
-    req.body.employeeTitle,
-    req.body.employeeFunction,
-    req.body.releaseDate,
-    req.body.propability,
-    req.body.releasePercentage,
-    req.body.releaseReason,
+  const releaseRequest = new ReleaseRequest(
+    req.body.manager_name,
+    req.body.employee_name,
+    req.body.employee_id,
+    req.body.employee_title,
+    req.body.function,
+    req.body.release_date,
+    req.body.probability,
+    req.body.release_percentage,
+    req.body.release_reason,
     req.body.leaving,
-    req.body.requestStatus
+    req.body.release_status
   );
   releaseRequest.referenceNumber = req.params.requestId;
-  releaseRequest.editReleaseRequest(function () {
-    res.status(200);
-    res.send("done");
+  releaseRequest.editReleaseRequest(() => {
+    console.log(req.body.actionChanged);
+    if (req.body.actionChanged) {
+      releaseRequest.updateActionTaken(
+        req.body.action_taken,
+        req.body.comments,
+        () => {
+          res.status(200);
+          res.send('done');
+        }
+      );
+    } else {
+      res.status(200);
+      res.send('done');
+    }
   });
 };
 
@@ -99,5 +133,5 @@ export const editReleaseRequest = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const getReleaseRequestsActions = (req, res) => {
-  res.send("Get All Release Requests Actions");
+  res.send('Get All Release Requests Actions');
 };
