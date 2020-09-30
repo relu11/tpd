@@ -1,14 +1,15 @@
 import express from 'express';
-
+import EmployeeService from '../services/EmployeeService';
 /**
  * Gets all employees
  * @param {express.Request} req - Request Object
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getAllEmployees = (req, res) => {
-  res.send('Get All Employees');
-}
+export const getAllEmployees = async (req, res) => {
+  const employees = await EmployeeService.getEmployeesList();
+  res.send({ employees });
+};
 
 /**
  * Gets all employees
@@ -17,9 +18,12 @@ export const getAllEmployees = (req, res) => {
  * @param {Object} req.params.employeeId - Employee ID
  * @param {express.Response} res - Response Object
  */
-export const getEmployee = (req, res) => {
-  res.send('Get Employee');
-}
+export const getEmployee = async (req, res) => {
+  const employee = await EmployeeService.getEmployee(
+    '00376965-8F0E-4272-98AA-052DA616E8C1'
+  );
+  res.send(employee);
+};
 
 /**
  * Edits an Employee Assignment
@@ -31,7 +35,7 @@ export const getEmployee = (req, res) => {
  */
 export const editEmployeeAssignment = (req, res) => {
   res.send('Edit an Employees');
-}
+};
 
 /**
  * Adds an Employee Assignment
@@ -42,7 +46,7 @@ export const editEmployeeAssignment = (req, res) => {
  */
 export const addAssignment = (req, res) => {
   res.send('Add an Employees');
-}
+};
 
 /**
  * Deletes an Employee Assignment
@@ -54,7 +58,7 @@ export const addAssignment = (req, res) => {
  */
 export const deleteEmployeeAssignment = (req, res) => {
   res.send('Delete an Employees');
-}
+};
 
 /**
  * Exports Employees List
@@ -66,4 +70,4 @@ export const deleteEmployeeAssignment = (req, res) => {
  */
 export const exportEmployeesList = (req, res) => {
   res.send('Export Employees List');
-}
+};

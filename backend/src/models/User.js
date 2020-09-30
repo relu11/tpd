@@ -1,7 +1,22 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Op } from 'sequelize';
 import sequelize from '../db';
 
-class User extends Model {}
+class User extends Model {
+  static async logIn(email, pass) {
+    try {
+      const user = await User.findOne({
+        where: {
+          [Op.or]: [{ id: email }, { username: email }],
+          password: pass,
+        },
+      });
+      console.log(user);
+      return user;
+    } catch (err) {
+      return err;
+    }
+  }
+}
 
 User.init(
   {
