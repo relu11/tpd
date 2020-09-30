@@ -87,7 +87,7 @@ export const addEmployeeSkill = (req, res) => {
  * @param {express.Response} res - Response Object
  */
 export const editEmployeeSkill = (req, res) => {
-  res.send('Edits an employee skill');
+  EmployeeSkillsService.updateEmployeeSkill(req.body, req.user.id);
 };
 
 /**

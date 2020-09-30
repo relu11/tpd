@@ -1,5 +1,5 @@
 import Employee from '../models/Employee';
-import EmployeeSkill from '../models/EmployeeSkills';
+import SkillService from '../services/SkillService';
 import EmployeeSkills from '../models/EmployeeSkills';
 class EmployeeSkillsService {
   /**
@@ -9,12 +9,17 @@ class EmployeeSkillsService {
    * @returns {Object} Employee skill data
    */
   static async addEmployeeSkill(_skillData, _employeeId) {
+    if (_skillData.isNew) {
+      SkillService.addSkill(_skillData);
+    }
+
     const skill = await EmployeeSkills.create({
       employeeId: _employeeId,
       skillId: _skillData.skillId,
       experienceLevel: _skillData.experienceLevel,
       lastUsedDate: _skillData.lastUsedDate,
     });
+    return skill;
   }
 
   /**
@@ -24,7 +29,7 @@ class EmployeeSkillsService {
    * @returns {Object} Employee skill data after modification
    */
   static async updateEmployeeSkill(_skillData, _employeeId) {
-    const skills = await EmployeeSkill.update(
+    const skills = await EmployeeSkills.update(
       {
         experienceLevel: _skillData.experienceLevel,
         lastUsedDate: _skillData.lastUsedDate,
@@ -36,6 +41,7 @@ class EmployeeSkillsService {
         },
       }
     );
+    return skills;
   }
 
   /**
@@ -60,8 +66,14 @@ class EmployeeSkillsService {
    * @param {String} _employeeId - The ID of the employee
    * @returns {Object} Skill data
    */
-  static getEmployeeSkill(_skillId, _employeeId) {
-    /* */
+  static async getEmployeeSkill(_skillId, _employeeId) {
+    const skill = await EmployeeSkills.findOne({
+      where: {
+        skillId: _skillId,
+        employeeId: _employeeId,
+      },
+    });
+    return skill;
   }
 
   /**
