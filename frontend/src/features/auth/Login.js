@@ -1,11 +1,12 @@
 import React from 'react';
+import { Paper, Typography } from '@material-ui/core';
 
 function Login() {
     return (
-        <div>
-            Login
-        </div>
-    )
+        <Paper>
+            <Typography variant='h6'>Login</Typography>
+        </Paper>
+    );
 }
 
 export default Login;

@@ -1,15 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
+/**
+ * @type {{
+ *  currentUser: {
+ *      token: String,
+ *      email: String,
+ *      name: String,
+ *      role: 'tpd' | 'manager' | 'employee'
+ *  }
+ * }}
+ */
+
+const initialState = {
+    currentUser: null,
+};
 
 export const authSlice = createSlice({
     name: 'auth',
-    initialState: {
-        currentUser: null,
-    },
+    initialState,
     reducers: {
         setCurrentUser: (state, payload) => {
             state.currentUser = payload.user;
-        }
-    }
+        },
+    },
 });
 
 export const { setCurrentUser } = authSlice.actions;
