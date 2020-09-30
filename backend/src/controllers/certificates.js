@@ -1,14 +1,15 @@
 import express from 'express';
-
+import CertificationService from '../services/CertificationService';
 /**
  * Gets all certificates
  * @param {express.Request} req - Request Object
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getAllCertificates = (req, res) => {
-  res.send('Get All Certificates');
-}
+export const getAllCertificates = async (req, res) => {
+  const certification = await CertificationService.getAllCertifications();
+  res.send(certification);
+};
 
 /**
  * Adds a new certificate
@@ -19,7 +20,7 @@ export const getAllCertificates = (req, res) => {
  */
 export const addCertificate = (req, res) => {
   res.send('Adds a new certificate');
-}
+};
 
 /**
  * Edits a certificate
@@ -30,7 +31,7 @@ export const addCertificate = (req, res) => {
  */
 export const editCertificate = (req, res) => {
   res.send('Edits a certificate');
-}
+};
 
 /**
  * Deltes a certificate
@@ -41,7 +42,7 @@ export const editCertificate = (req, res) => {
  */
 export const deleteCertificate = (req, res) => {
   res.send('Deltes a certificate');
-}
+};
 
 /**
  * Gets all certificates of an employee
@@ -51,7 +52,7 @@ export const deleteCertificate = (req, res) => {
  */
 export const getEmployeeCertificates = (req, res) => {
   res.send('Gets all certificates of an employee');
-}
+};
 
 /**
  * Adds an employee certificate
@@ -62,7 +63,7 @@ export const getEmployeeCertificates = (req, res) => {
  */
 export const addEmployeeCertificate = (req, res) => {
   res.send('Adds an employee certificate');
-}
+};
 
 /**
  * Edits an employee certificate
@@ -73,7 +74,7 @@ export const addEmployeeCertificate = (req, res) => {
  */
 export const editEmployeeCertificate = (req, res) => {
   res.send('Edits an employee certificate');
-}
+};
 
 /**
  * Adds an employee certificate
@@ -84,7 +85,7 @@ export const editEmployeeCertificate = (req, res) => {
  */
 export const deleteEmployeeCertificate = (req, res) => {
   res.send('Adds an employee certificate');
-}
+};
 
 /**
  * Gets the tracking list of employees certificates
@@ -94,7 +95,7 @@ export const deleteEmployeeCertificate = (req, res) => {
  */
 export const getCertificatesHistory = (req, res) => {
   res.send('Gets the tracking list of employees certificates');
-}
+};
 
 /**
  * Gets the tracking list of employees certificates
@@ -104,4 +105,4 @@ export const getCertificatesHistory = (req, res) => {
  */
 export const getCertificateProviders = (req, res) => {
   res.send('Gets the tracking list of employees certificates');
-}
+};

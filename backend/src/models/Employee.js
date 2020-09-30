@@ -1,7 +1,16 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
-class Employee extends Model {}
+class Employee extends Model {
+  static async getAllEmployees() {
+    const employees = await Employee.findAll();
+    return employees;
+  }
+  static async getEmployee(id) {
+    const employee = await Employee.findByPk(id);
+    return employee;
+  }
+}
 
 Employee.init(
   {

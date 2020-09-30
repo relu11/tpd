@@ -1,10 +1,12 @@
+import Employee from '../models/Employee';
 class EmployeeService {
   /**
    * Gets all employee data
    * @param {String} _employeeId The ID of the employee
    */
   static getEmployee(_employeeId) {
-    /* */
+    const employees = Employee.getEmployee(_employeeId);
+    return employees;
   }
 
   /**
@@ -12,8 +14,9 @@ class EmployeeService {
    * @param {Object} _filters - Filters for retireved data
    * @returns {Object[]} All employees data
    */
-  static getEmployeesList(_filters) {
-    /* */
+  static getEmployeesList() {
+    const employees = Employee.getAllEmployees();
+    return employees;
   }
 
   /**
