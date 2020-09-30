@@ -1,24 +1,21 @@
-import Model from "./Model";
-import dbConnection from "../db";
-class User extends Model {
-  constructor(userID, userName, password, email) {
-    super("");
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-    this.userID = userID;
-    this.userName = userName;
-    this.password = password;
-    this.email = email;
+class User extends Model {}
+
+User.init(
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true },
+    username: { type: DataTypes.STRING(32) },
+    password: { type: DataTypes.STRING(32) },
+    email: { type: DataTypes.STRING },
+  },
+  {
+    sequelize,
+    modelName: 'User',
+    tableName: 'Users',
+    timestamps: false,
   }
-
-  static logIn(userName, password, callback) {
-    var sql = `select * from users, user_role WHERE user_name = "${userName}" OR email = "${userName}" AND password = "${password}" AND id = user_id`;
-
-    dbConnection.query(sql, function (err, result) {
-      console.log(result);
-      if (err) throw err;
-      callback(result[0]);
-    });
-  }
-}
+);
 
 export default User;

@@ -1,11 +1,19 @@
-import Model from './Model';
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-class CertificationProvider extends Model {
-  constructor(certificationProviderID, certificationProviderName) {
-    super('');
-    this.certificationProviderID = certificationProviderID;
-    this.certificationProviderName = certificationProviderName;
+class CertificationProvider extends Model {}
+
+CertificationProvider.init(
+  {
+    certificatoinProviderId: { type: DataTypes.INTEGER, primaryKey: true },
+    certificationProviderName: { type: DataTypes.STRING(128) },
+  },
+  {
+    sequelize,
+    modelName: 'CertificationProvider',
+    freezeTableName: true,
+    timestamps: false,
   }
-}
+);
 
 export default CertificationProvider;

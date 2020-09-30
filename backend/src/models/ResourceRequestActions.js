@@ -1,14 +1,20 @@
-import Model from "./Model";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-class ResourceRequestActions extends Model {
-  constructor(actionId, requestReferenceNumber, action, actionNote) {
-    super('');
+class ResourceRequestActions extends Model {}
 
-    this.actionId = actionId;
-    this.requestReferenceNumber = requestReferenceNumber;
-    this.action = action;
-    this.actionNote = actionNote;
+ResourceRequestActions.init(
+  {
+    actionId: { type: DataTypes.INTEGER, primaryKey: true },
+    action: { type: DataTypes.STRING(32) },
+    actionNote: { type: DataTypes.STRING },
+  },
+  {
+    sequelize,
+    modelName: 'ResourceRequestActions',
+    freezeTableName: true,
+    timestamps: false,
   }
-}
+);
 
 export default ResourceRequestActions;

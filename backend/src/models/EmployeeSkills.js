@@ -1,20 +1,21 @@
-import Model from "./Model";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-class EmployeeSkills extends Model {
-  constructor(employeeID, skillId, experienceLevel, lastDateUsed) {
-    super("employee_skills");
+class EmployeeSkill extends Model {}
 
-    this.employeeID = employeeID;
-    this.skillId = skillId;
-    this.experienceLevel = experienceLevel;
-    this.lastDateUsed = lastDateUsed;
+EmployeeSkill.init(
+  {
+    employeeId: { type: DataTypes.STRING(36), primaryKey: true },
+    skillId: { type: DataTypes.INTEGER, primaryKey: true },
+    experienceLevel: { type: DataTypes.STRING(32) },
+    lastUsedDate: { type: DataTypes.DATE },
+  },
+  {
+    sequelize,
+    modelName: 'EmployeeSkill',
+    tableName: 'EmployeeSkills',
+    timestamps: false,
   }
+);
 
-  static async getSkills(employeeID) {
-    const sql = `select * from employee_skills,skills where employee_id = "${employeeID}" and employee_skills.skill_id = skills.skill_id`;
-    const result = await this.query(sql);
-    return result;
-  }
-}
-
-export default EmployeeSkills;
+export default EmployeeSkill;

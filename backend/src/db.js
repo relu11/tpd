@@ -1,14 +1,15 @@
-import mysql from "mysql";
-import { DATABASE_URL } from "./config";
+import { Sequelize } from 'sequelize';
+import { DATABASE_URL } from './config';
 
-const dbConnection = mysql.createConnection(DATABASE_URL);
+const sequelize = new Sequelize(DATABASE_URL);
 
-dbConnection.connect((err) => {
-  if (err) {
-    console.log(`Error connecting to database: ${err}`);
-    return;
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connected to database');
+  } catch (err) {
+    console.log('Unable to connect to database', err);
   }
-  console.log("Connected to database");
-});
+})();
 
-export default dbConnection;
+export default sequelize;

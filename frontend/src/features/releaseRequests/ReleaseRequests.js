@@ -62,9 +62,6 @@ function ReleaseRequests() {
         setPage(0);
     };
 
-    const handleDeleteClick = refNumber =>
-        dispatch(deleteReleaseRequest(refNumber));
-
     const filterRows = rows =>
         rows.filter(r => {
             let valid = true;
@@ -127,36 +124,34 @@ function ReleaseRequests() {
                             filterRows(requests)
                                 .sort(
                                     (a, b) =>
-                                        new Date(b.release_date) -
-                                        new Date(a.release_date)
+                                        new Date(b.createdAt) -
+                                        new Date(a.createdAt)
                                 )
                                 .map(row => (
                                     <TableRow key={row.reference_number}>
                                         <TableCell component='th' scope='row'>
-                                            {row.reference_number}
+                                            {row.referenceNumber}
                                         </TableCell>
+                                        <TableCell>{row.managerName}</TableCell>
                                         <TableCell>
-                                            {row.manager_name}
+                                            {row.employeeName}
                                         </TableCell>
+                                        <TableCell>{row.employeeId}</TableCell>
                                         <TableCell>
-                                            {row.employee_name}
-                                        </TableCell>
-                                        <TableCell>{row.employee_id}</TableCell>
-                                        <TableCell>
-                                            {row.employee_title}
+                                            {row.employeeTitle}
                                         </TableCell>
                                         <TableCell>{row.function}</TableCell>
                                         <TableCell>
                                             {new Date(
-                                                row.release_date
+                                                row.releaseDate
                                             ).toDateString()}
                                         </TableCell>
                                         <TableCell>
-                                            {row.release_reason}
+                                            {row.releaseReason}
                                         </TableCell>
                                         <TableCell>{row.leaving}</TableCell>
                                         <TableCell>
-                                            {row.request_status}
+                                            {row.requestStatus}
                                         </TableCell>
                                         <TableCell>
                                             {row.actionTaken || '-'}
@@ -169,14 +164,14 @@ function ReleaseRequests() {
                                                 <Link
                                                     aria-label='edit'
                                                     component={IconButton}
-                                                    to={`/requests/release/${row.reference_number}/edit`}
+                                                    to={`/requests/release/${row.referenceNumber}/edit`}
                                                 >
                                                     <EditIcon color='primary' />
                                                 </Link>
                                                 <Link
                                                     aria-label='history'
                                                     component={IconButton}
-                                                    to={`/requests/release/${row.reference_number}/history`}
+                                                    to={`/requests/release/${row.referenceNumber}/history`}
                                                 >
                                                     <HistoryIcon color='primary' />
                                                 </Link>
