@@ -1,5 +1,7 @@
 import express from 'express';
-
+import Employee from '../models/Employee';
+import EmployeeService from '../services/EmployeeService';
+import EmployeeSkillsService from '../services/EmployeeSkillsService';
 /**
  * Gets all employees
  * @param {express.Request} req - Request Object
@@ -8,7 +10,7 @@ import express from 'express';
  */
 export const getAllEmployees = (req, res) => {
   res.send('Get All Employees');
-}
+};
 
 /**
  * Gets all employees
@@ -17,9 +19,13 @@ export const getAllEmployees = (req, res) => {
  * @param {Object} req.params.employeeId - Employee ID
  * @param {express.Response} res - Response Object
  */
-export const getEmployee = (req, res) => {
-  res.send('Get Employee');
-}
+export const getEmployee = async (req, res) => {
+  const employeeProfile = await EmployeeService.getEmployee(
+    '00376965-8F0E-4272-98AA-052DA616E8C1'
+  );
+
+  res.send(employeeProfile);
+};
 
 /**
  * Edits an Employee Assignment
@@ -31,7 +37,7 @@ export const getEmployee = (req, res) => {
  */
 export const editEmployeeAssignment = (req, res) => {
   res.send('Edit an Employees');
-}
+};
 
 /**
  * Adds an Employee Assignment
@@ -42,7 +48,7 @@ export const editEmployeeAssignment = (req, res) => {
  */
 export const addAssignment = (req, res) => {
   res.send('Add an Employees');
-}
+};
 
 /**
  * Deletes an Employee Assignment
@@ -54,7 +60,7 @@ export const addAssignment = (req, res) => {
  */
 export const deleteEmployeeAssignment = (req, res) => {
   res.send('Delete an Employees');
-}
+};
 
 /**
  * Exports Employees List
@@ -66,4 +72,4 @@ export const deleteEmployeeAssignment = (req, res) => {
  */
 export const exportEmployeesList = (req, res) => {
   res.send('Export Employees List');
-}
+};

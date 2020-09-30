@@ -1,10 +1,12 @@
+import Employee from '../models/Employee';
 class EmployeeService {
   /**
    * Gets all employee data
    * @param {String} _employeeId The ID of the employee
    */
-  static getEmployee(_employeeId) {
-    /* */
+  static async getEmployee(_employeeId) {
+    const employeeProfile = await Employee.getEmployeeProfile(_employeeId);
+    return employeeProfile;
   }
 
   /**

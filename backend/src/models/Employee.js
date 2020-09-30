@@ -1,4 +1,4 @@
-import Model from "./Model";
+import Model from './Model';
 
 class Employee extends Model {
   constructor(
@@ -17,7 +17,7 @@ class Employee extends Model {
     mobileNumber,
     costCenter
   ) {
-    super("employees_profiles");
+    super('employees_profiles');
 
     this.id = id;
     this.name = name;
@@ -40,6 +40,12 @@ class Employee extends Model {
     const result = await this.query(sql);
 
     return result[0].id;
+  }
+  static async getEmployeeProfile(id) {
+    const sql = `select * from employees_profiles where id = "${id}"`;
+    const result = await this.query(sql);
+
+    return result[0];
   }
 }
 

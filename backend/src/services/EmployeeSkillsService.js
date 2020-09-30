@@ -1,5 +1,5 @@
-import Employee from "../models/Employee";
-import EmployeeSkills from "../models/EmployeeSkills";
+import Employee from '../models/Employee';
+import EmployeeSkills from '../models/EmployeeSkills';
 class EmployeeSkillsService {
   /**
    * Adds a new employee skill
@@ -37,9 +37,7 @@ class EmployeeSkillsService {
    * @param {String} _employeeId - The ID of the employee
    * @returns {Object} Skill data
    */
-  static getEmployeeSkill(_skillId, _employeeId) {
-    /* */
-  }
+  static getEmployeeSkill(_skillId, _employeeId) {}
 
   /**
    * Gets all the skills of an employee
