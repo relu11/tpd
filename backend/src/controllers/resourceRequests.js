@@ -1,5 +1,7 @@
 import express from 'express';
 import ResourceRequest from '../models/ResourceRequest';
+import ResourceRequestActions from '../models/ResourceRequestActions';
+
 const Json2csvParser = require('json2csv').Parser;
 /**
  * Gets all resource requests
@@ -7,10 +9,9 @@ const Json2csvParser = require('json2csv').Parser;
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getAllResourceRequests = (req, res) => {
-  ResourceRequest.getResourceRequests(requests => {
-    res.send({ requests });
-  });
+export const getAllResourceRequests = async (req, res) => {
+  const requests = await ResourceRequest.findAll();
+  res.send({ requests });
 };
 
 /**
@@ -59,25 +60,38 @@ export const exportResourceRequests = (req, res) => {
  * @param {Object} req.body.resourceRequest - Resource Request Data
  * @param {express.Response} res - Response Object
  */
-export const addResourceRequest = (req, res) => {
-  const resourceRequest = new ResourceRequest(
-    req.body.manager_name,
-    req.body.function,
-    req.body.title,
-    req.body.start_date,
-    req.body.end_date,
-    req.body.probability,
-    req.body.percentage,
-    req.body.core_team_member,
-    req.body.replacement,
-    req.body.replecement_for,
-    req.body.requests_count,
-    req.body.related_opportunity,
-    req.body.comments
-  );
-  resourceRequest.addResourceRequest(() => {
-    res.send('done');
+export const addResourceRequest = async (req, res) => {
+  const {
+    managerName,
+    title,
+    startDate,
+    endDate,
+    probability,
+    percentage,
+    coreTeamMember,
+    replacement,
+    replacementFor,
+    requestsCount,
+    relatedOpportunity,
+    comments,
+  } = req.body;
+
+  const newRequest = await ResourceRequest.create({
+    managerName,
+    title,
+    startDate,
+    endDate,
+    probability,
+    percentage,
+    coreTeamMember,
+    replacement,
+    replacementFor,
+    requestsCount,
+    relatedOpportunity,
+    comments,
+    function: req.body.function,
   });
+  res.send({ request: newRequest });
 };
 
 /**
@@ -87,10 +101,9 @@ export const addResourceRequest = (req, res) => {
  * @param {Number} req.params.requestId - The ID of the resource request
  * @param {express.Response} res - Response Object
  */
-export const getResourceRequest = (req, res) => {
-  ResourceRequest.getResourceRequest(req.params.requestId, request => {
-    res.send({ request });
-  });
+export const getResourceRequest = async (req, res) => {
+  const request = await ResourceRequest.findByPk(req.params.requestId);
+  res.send({ request });
 };
 
 /**
@@ -100,41 +113,66 @@ export const getResourceRequest = (req, res) => {
  * @param {Object} req.body.resourceRequest - Modified Resource Request Data
  * @param {express.Response} res - Response Object
  */
-export const editResourceRequest = (req, res) => {
-  const resourceRequest = new ResourceRequest(
-    req.body.manager_name,
-    req.body.function,
-    req.body.title,
-    req.body.start_date,
-    req.body.end_date,
-    req.body.probability,
-    req.body.percentage,
-    req.body.core_team_member,
-    req.body.replacement,
-    req.body.replecement_for,
-    req.body.requests_count,
-    req.body.related_oppoortunity,
-    req.body.comments,
-    req.body.assigned_resource,
-    req.body.actual_percentage,
-    req.body.status
-  );
-  resourceRequest.setReferenceNumber(req.params.requestId);
-  resourceRequest.editResourceRequest(() => {
-    if (req.body.actionChanged) {
-      resourceRequest.updateActionTaken(
-        req.body.action_taken,
-        req.body.comments,
-        () => {
-          res.status(200);
-          res.send('done');
-        }
-      );
-    } else {
-      res.status(200);
-      res.send('done');
-    }
+export const editResourceRequest = async (req, res) => {
+  const {
+    managerName,
+    title,
+    startDate,
+    endDate,
+    probability,
+    percentage,
+    coreTeamMember,
+    replacement,
+    replacementFor,
+    requestsCount,
+    relatedOpportunity,
+    comments,
+    assignedResource,
+    actualPercentage,
+    status,
+    actionChanged,
+    actionTaken,
+  } = req.body;
+
+  const resourceRequest = await ResourceRequest.findByPk(req.params.requestId);
+  await resourceRequest.update({
+    managerName,
+    title,
+    startDate,
+    endDate,
+    probability,
+    percentage,
+    coreTeamMember,
+    replacement,
+    replacementFor,
+    requestsCount,
+    relatedOpportunity,
+    comments,
+    assignedResource,
+    actualPercentage,
+    status,
+    function: req.body.function,
   });
+
+  if (actionChanged) {
+    const [
+      resourceRequestAction,
+      created,
+    ] = await ResourceRequestActions.findOrCreate({
+      where: { actionId: req.params.requestId },
+      defaults: {
+        action: actionTaken,
+      },
+    });
+
+    if (!created) {
+      await resourceRequestAction.update({
+        action: actionTaken,
+      });
+    }
+
+    res.send({ request: resourceRequest });
+  }
 };
 
 /**

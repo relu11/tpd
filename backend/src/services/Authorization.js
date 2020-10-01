@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 /**
  * Checks token if user is looged in
  */
-exports.loggedIn = function (req, res, next) {
+export const loggedIn = (req, res, next) => {
   let token = req.header('Authorization');
   if (!token) return res.status(401).send('Access Denied');
 
@@ -23,8 +23,8 @@ exports.loggedIn = function (req, res, next) {
 /**
  * Checks token if user is a tpd
  */
-exports.tpdOnly = async function (req, res, next) {
-  if (req.user.user_type_id === TPD_ROLE) {
+export const tpdOnly = async (req, res, next) => {
+  if (req.user.role === TPD_ROLE) {
     next();
   } else {
     return res.status(401).send('Access Denied');
@@ -33,11 +33,8 @@ exports.tpdOnly = async function (req, res, next) {
 /**
  * Checks token if user is a manager
  */
-exports.managerOnly = async function (req, res, next) {
-  if (
-    req.user.user_type_id === MANAGER_ROLE ||
-    req.user.user_type_id === TPD_ROLE
-  ) {
+export const managerOnly = async (req, res, next) => {
+  if (req.user.role === MANAGER_ROLE || req.user.role === TPD_ROLE) {
     next();
   } else {
     return res.status(401).send('Access Denied');

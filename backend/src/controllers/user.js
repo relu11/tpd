@@ -11,10 +11,11 @@ const jwt = require('jsonwebtoken');
 
 export const logIn = async (req, res) => {
   try {
+    console.log(req.body);
     const user = await User.logIn(req.body.email, req.body.password);
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role },
       process.env.TOKEN_SECRET
     );
     res.header('auth-token', token).send({ token });

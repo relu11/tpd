@@ -15,7 +15,10 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-unused-vars": [1, {"varsIgnorePattern": "_|express", "argsIgnorePattern": "_"}],
+    "no-unused-vars": [
+      1,
+      { "varsIgnorePattern": "_|express", "argsIgnorePattern": "_" }
+    ],
     "semi": "off",
     "no-console": "off",
     "no-multiple-empty-lines": "warn",
@@ -26,6 +29,7 @@
     "import/prefer-default-export": [0],
     "class-methods-use-this": "off",
     "prefer-destructuring": "off",
-    "quotes": "off"
+    "quotes": "off",
+    "operator-linebreak": "off"
   }
 }

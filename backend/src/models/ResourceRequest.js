@@ -18,7 +18,7 @@ ResourceRequest.init(
     replacement: { type: DataTypes.STRING(1) },
     replacementFor: { type: DataTypes.STRING },
     requestsCount: { type: DataTypes.INTEGER },
-    relatedOpportuniity: { type: DataTypes.STRING(128) },
+    relatedOpportunity: { type: DataTypes.STRING(128) },
     comments: { type: DataTypes.STRING },
     assignedResource: { type: DataTypes.STRING },
     actualPercentage: { type: DataTypes.INTEGER },

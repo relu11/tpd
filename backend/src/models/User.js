@@ -24,6 +24,7 @@ User.init(
     username: { type: DataTypes.STRING(32) },
     password: { type: DataTypes.STRING(32) },
     email: { type: DataTypes.STRING },
+    role: { type: DataTypes.INTEGER },
   },
   {
     sequelize,
