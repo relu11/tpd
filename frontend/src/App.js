@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core';
 import theme from './app/theme';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import Drawer from './features/navigation/Drawer';
 import Navbar from './features/navigation/Navbar';
 import links from './features/navigation/links';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Login from './features/auth/Login';
+import { setCurrentUser } from './features/auth/authSlice';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,9 +30,22 @@ const useStyles = makeStyles(theme => ({
 function App() {
     const classes = useStyles();
     const currentUser = useSelector(state => state.auth.currentUser);
+    const [checkedLS, setCheckedLS] = useState(false);
 
-    const renderAuthContent = () => (
-        <div>
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!checkedLS) {
+            const lsCurrentUser = JSON.parse(
+                localStorage.getItem('currentUser')
+            );
+            if (lsCurrentUser) dispatch(setCurrentUser(lsCurrentUser));
+            setCheckedLS(true);
+        }
+    });
+
+    const renderAuthContent = classes => (
+        <div className={classes.root}>
             <Navbar />
             <Drawer />
             <main className={classes.content}>
@@ -65,8 +79,8 @@ function App() {
     return (
         <BrowserRouter>
             <ThemeProvider theme={theme}>
-                <div className={classes.root}>
-                    {currentUser ? renderAuthContent() : <Login />}
+                <div>
+                    {currentUser ? renderAuthContent(classes) : <Login />}
                 </div>
             </ThemeProvider>
         </BrowserRouter>

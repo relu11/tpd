@@ -42,8 +42,8 @@ function Filters() {
                 variant='outlined'
                 label='Manager'
                 size='small'
-                name='manager_name'
-                value={filters.manager_name}
+                name='managerName'
+                value={filters.managerName}
                 onChange={setFilter}
             />
             <TextField
