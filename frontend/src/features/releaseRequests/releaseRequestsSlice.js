@@ -10,16 +10,15 @@ const initialState = {
     requests: [],
     currentRequest: null,
     filters: {
-        manager_name: '',
-        employee_title: '',
+        managerName: '',
+        employeeTitle: '',
         function: '',
-        employee_name: '',
-        request_status: '',
+        employeeName: '',
+        requestStatus: '',
     },
 };
 
 export const formatRequest = request => {
-    request.probability = request.propability;
     if (typeof request.release_date !== Date)
         request.release_date = new Date(request.release_date);
     request.release_date = `${request.release_date.getFullYear()}-${
@@ -38,7 +37,6 @@ export const fetchReleaseRequests = createAsyncThunk(
         console.log(`${API_URL}/requests/release`);
         const res = await fetch(`${API_URL}/requests/release`, requestOptions);
         const { requests } = await res.json();
-        // requests.map(r => formatRequest(r));
         return requests;
     }
 );
@@ -66,7 +64,7 @@ export const patchReleaseRequest = createAsyncThunk(
             body: JSON.stringify(request),
         };
         await fetch(
-            `${API_URL}/requests/release/${request.reference_number}`,
+            `${API_URL}/requests/release/${request.referenceNumber}`,
             requestOptions
         );
     }
@@ -97,7 +95,7 @@ export const getReleaseRequest = createAsyncThunk(
             requestOptions
         );
         const { request } = await res.json();
-        request.hasActionTaken = request.action_taken ? true : false;
+        request.hasActionTaken = request.actionTaken ? true : false;
         return formatRequest(request);
     }
 );
@@ -128,7 +126,6 @@ export const requestsSlice = createSlice({
         updateCurrentReleaseRequest: (state, action) => {
             Object.keys(action.payload).map(key => {
                 state.currentRequest[key] = action.payload[key];
-                console.log(state.currentRequest[key]);
             });
         },
     },

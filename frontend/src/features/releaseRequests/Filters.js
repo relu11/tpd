@@ -42,8 +42,8 @@ function Filters() {
                 variant='outlined'
                 label='Manager'
                 size='small'
-                name='manager_name'
-                value={filters.manager_name}
+                name='managerName'
+                value={filters.managerName}
                 onChange={setFilter}
             />
             <TextField
@@ -51,8 +51,8 @@ function Filters() {
                 variant='outlined'
                 label='Employee Title'
                 size='small'
-                value={filters.employee_title}
-                name='employee_title'
+                value={filters.employeeTitle}
+                name='employeeTitle'
                 onChange={setFilter}
             />
             <TextField
@@ -69,8 +69,8 @@ function Filters() {
                 variant='outlined'
                 label='Employee Name'
                 size='small'
-                value={filters.employee_name}
-                name='employee_name'
+                value={filters.employeeName}
+                name='employeeName'
                 onChange={setFilter}
             />
             <FormControl size='small'>
@@ -79,8 +79,8 @@ function Filters() {
                     labelId='status-select-label'
                     className={classes.textField}
                     variant='outlined'
-                    value={filters.request_status}
-                    name='request_status'
+                    value={filters.requestStatus}
+                    name='requestStatus'
                     onChange={setFilter}
                 >
                     <MenuItem value=''></MenuItem>

@@ -1,24 +1,36 @@
-import Model from "./Model";
-import dbConnection from "../db";
+import { Model, DataTypes, Op } from 'sequelize';
+import sequelize from '../db';
+
 class User extends Model {
-  constructor(userID, userName, password, email) {
-    super("");
-
-    this.userID = userID;
-    this.userName = userName;
-    this.password = password;
-    this.email = email;
-  }
-
-  static logIn(userName, password, callback) {
-    var sql = `select * from users, user_role WHERE user_name = "${userName}" OR email = "${userName}" AND password = "${password}" AND id = user_id`;
-
-    dbConnection.query(sql, function (err, result) {
-      console.log(result);
-      if (err) throw err;
-      callback(result[0]);
-    });
+  static async logIn(email, pass) {
+    try {
+      const user = await User.findOne({
+        where: {
+          [Op.or]: [{ id: email }, { username: email }],
+          password: pass,
+        },
+      });
+      console.log(user);
+      return user;
+    } catch (err) {
+      return err;
+    }
   }
 }
+
+User.init(
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true },
+    username: { type: DataTypes.STRING(32) },
+    password: { type: DataTypes.STRING(32) },
+    email: { type: DataTypes.STRING },
+  },
+  {
+    sequelize,
+    modelName: 'User',
+    tableName: 'Users',
+    timestamps: false,
+  }
+);
 
 export default User;

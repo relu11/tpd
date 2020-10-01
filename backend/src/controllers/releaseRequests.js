@@ -1,6 +1,7 @@
 import express from 'express';
 import { Parser as Json2csvParser } from 'json2csv';
 import ReleaseRequest from '../models/ReleaseRequest';
+import ReleaseRequestActions from '../models/ReleaseRequestActions';
 
 /**
  * Gets all release requests
@@ -8,10 +9,9 @@ import ReleaseRequest from '../models/ReleaseRequest';
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getAllReleaseRequests = (req, res) => {
-  ReleaseRequest.getReleaseRequests(requests => {
-    res.send({ requests });
-  });
+export const getAllReleaseRequests = async (req, res) => {
+  const requests = await ReleaseRequest.findAll();
+  res.send({ requests });
 };
 
 /**
@@ -20,32 +20,31 @@ export const getAllReleaseRequests = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const exportReleaseRequests = (req, res) => {
-  ReleaseRequest.getReleaseRequests(data => {
-    const jsonCustomers = JSON.parse(JSON.stringify(data));
-    const csvFields = [
-      'reference_number',
-      'manager_name',
-      'employee_name',
-      'employee_id',
-      'employee_title',
-      'function',
-      'release_date',
-      'propability',
-      'release_percentage',
-      'release_reason',
-      'leaving',
-      'request_status',
-    ];
-    const json2csvParser = new Json2csvParser({ csvFields });
-    const csv = json2csvParser.parse(jsonCustomers);
+export const exportReleaseRequests = async (req, res) => {
+  const data = await ReleaseRequest.findAll();
+  const jsonCustomers = JSON.parse(JSON.stringify(data));
+  const csvFields = [
+    'reference_number',
+    'manager_name',
+    'employee_name',
+    'employee_id',
+    'employee_title',
+    'function',
+    'release_date',
+    'propability',
+    'release_percentage',
+    'release_reason',
+    'leaving',
+    'request_status',
+  ];
+  const json2csvParser = new Json2csvParser({ csvFields });
+  const csv = json2csvParser.parse(jsonCustomers);
 
-    res.attachment('ReleaseRequests.csv');
-    res.type('csv');
-    res.download(csv, 'ReleaseRequests.csv');
-    res.status(200);
-    res.send(csv);
-  });
+  res.attachment('ReleaseRequests.csv');
+  res.type('csv');
+  res.download(csv, 'ReleaseRequests.csv');
+  res.status(200);
+  res.send(csv);
 };
 
 /**
@@ -55,23 +54,32 @@ export const exportReleaseRequests = (req, res) => {
  * @param {Object} req.body.releaseRequest - Release Request Data
  * @param {express.Response} res - Response Object
  */
-export const addReleaseRequest = (req, res) => {
-  const releaseRequest = new ReleaseRequest(
-    req.body.manager_name,
-    req.body.employee_name,
-    req.body.employee_id,
-    req.body.employee_title,
-    req.body.function,
-    req.body.release_date,
-    req.body.probability,
-    req.body.release_percentage,
-    req.body.release_reason,
-    req.body.leaving
-  );
-  releaseRequest.addReleaseRequest(() => {
-    res.status(200);
-    res.send('done');
+export const addReleaseRequest = async (req, res) => {
+  const {
+    managerName,
+    employeeName,
+    employeeId,
+    employeeTitle,
+    releaseDate,
+    probability,
+    releasePercentage,
+    releaseReason,
+    leaving,
+  } = req.body;
+  // reference number is auto incremented
+  const request = await ReleaseRequest.create({
+    managerName,
+    employeeName,
+    employeeId,
+    employeeTitle,
+    releaseDate,
+    probability,
+    releasePercentage,
+    releaseReason,
+    leaving,
+    function: req.body.function,
   });
+  res.send({ request });
 };
 
 /**
@@ -81,10 +89,9 @@ export const addReleaseRequest = (req, res) => {
  * @param {Number} req.params.requestId - The ID of the release request
  * @param {express.Response} res - Response Object
  */
-export const getReleaseRequest = (req, res) => {
-  ReleaseRequest.getReleaseRequest(req.params.requestId, request => {
-    res.send({ request });
-  });
+export const getReleaseRequest = async (req, res) => {
+  const request = await ReleaseRequest.findByPk(req.params.requestId);
+  res.send({ request });
 };
 
 /**
@@ -94,37 +101,61 @@ export const getReleaseRequest = (req, res) => {
  * @param {Object} req.body.releaseRequest - Modified Release Request Data
  * @param {express.Response} res - Response Object
  */
-export const editReleaseRequest = (req, res) => {
-  const releaseRequest = new ReleaseRequest(
-    req.body.manager_name,
-    req.body.employee_name,
-    req.body.employee_id,
-    req.body.employee_title,
-    req.body.function,
-    req.body.release_date,
-    req.body.probability,
-    req.body.release_percentage,
-    req.body.release_reason,
-    req.body.leaving,
-    req.body.release_status
-  );
-  releaseRequest.referenceNumber = req.params.requestId;
-  releaseRequest.editReleaseRequest(() => {
-    console.log(req.body.actionChanged);
-    if (req.body.actionChanged) {
-      releaseRequest.updateActionTaken(
-        req.body.action_taken,
-        req.body.comments,
-        () => {
-          res.status(200);
-          res.send('done');
-        }
-      );
-    } else {
-      res.status(200);
-      res.send('done');
-    }
+export const editReleaseRequest = async (req, res) => {
+  const {
+    referenceNumber,
+    managerName,
+    employeeName,
+    employeeId,
+    employeeTitle,
+    releaseDate,
+    probability,
+    releasePercentage,
+    releaseReason,
+    leaving,
+    requestStatus,
+    actionChanged,
+    actionTaken,
+    comments,
+  } = req.body;
+
+  const releaseRequest = await ReleaseRequest.findByPk(referenceNumber);
+
+  await releaseRequest.update({
+    managerName,
+    employeeName,
+    employeeId,
+    employeeTitle,
+    releaseDate,
+    probability,
+    releasePercentage,
+    releaseReason,
+    leaving,
+    requestStatus,
+    function: req.body.function,
   });
+
+  if (actionChanged) {
+    const [
+      releaseRequestAction,
+      created,
+    ] = await ReleaseRequestActions.findOrCreate({
+      where: { actionId: referenceNumber },
+      defaults: {
+        action: actionTaken,
+        actionNote: comments,
+      },
+    });
+
+    if (!created) {
+      await releaseRequestAction.update({
+        action: actionTaken,
+        actionNote: comments,
+      });
+    }
+  }
+
+  res.send({ request: releaseRequest });
 };
 
 /**

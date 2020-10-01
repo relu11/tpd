@@ -1,4 +1,4 @@
-import Skill from "../models/Skill";
+import Skill from '../models/Skill';
 
 class SkillService {
   /**
@@ -6,8 +6,10 @@ class SkillService {
    * @param {Object} _skillData - New skill data
    * @returns {Object} Skill Data
    */
-  static addSkill(_skillData) {
-    const skill = new Skill(_skillData.skill_id, _skillData.skill_name);
+  static async addSkill(_skillData) {
+    const skill = new Skill();
+    skill.skillName = _skillData.skillName;
+
     return skill.addSkill();
   }
 
@@ -17,8 +19,10 @@ class SkillService {
    * @param {Number} _skillData.id - The ID of the skill to update
    * @returns {Object} Skill Data After Modification
    */
-  static updateSkill(_skillData) {
-    const skill = new Skill(_skillData.skill_id, _skillData.skill_name);
+  static async updateSkill(_skillData) {
+    const skill = new Skill();
+    skill.skillName = _skillData.skillName;
+    skill.skillId = _skillData.skillId;
     return skill.editSkill();
   }
 

@@ -1,45 +1,68 @@
-import Model from "./Model";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
 class Skill extends Model {
-  constructor(skillID, skillName) {
-    super("skills");
-
-    this.skillID = skillID;
-    this.skillName = skillName;
-  }
-
   static async getAllSkills() {
-    const sql = `select * from skills`;
-    const result = await this.query(sql);
-    return result;
+    const skills = await Skill.findAll();
+
+    return skills;
   }
 
   static async getSkill(id) {
-    const sql = `select * from skills where skill_id = "${id}"`;
-    const result = await this.query(sql);
-    return result;
-  }
+    const skills = await Skill.findByPk(id);
 
-  async addSkill() {
-    const sql = `insert into skills(skill_name , skill_id) values("${this.skillName}" ,"${this.skillID}")`;
-    const result = await this.query(sql);
-
-    return result;
-  }
-
-  async editSkill() {
-    const sql = `update skills set skill_name = "${this.skillName}" where skill_id = "${this.skillID}"`;
-    const result = await this.query(sql);
-
-    return result;
+    return skills;
   }
 
   static async deleteSkill(id) {
-    const sql = `delete FROM skills where skill_id = "${id}"`;
-    const result = await this.query(sql);
+    const skills = await Skill.destroy({
+      where: {
+        skillId: id,
+      },
+    });
 
-    return result;
+    return skills;
+  }
+
+  async addSkill() {
+    try {
+      const skills = await Skill.create({
+        skillName: this.skillName,
+      });
+      return skills;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  async editSkill() {
+    try {
+      const skills = await Skill.update(
+        { skillName: this.skillName },
+        {
+          where: {
+            skillId: this.skillId,
+          },
+        }
+      );
+      return skills;
+    } catch (err) {
+      return err;
+    }
   }
 }
+
+Skill.init(
+  {
+    skillId: { type: DataTypes.INTEGER, primaryKey: true },
+    skillName: { type: DataTypes.STRING(45) },
+  },
+  {
+    sequelize,
+    modelName: 'Skill',
+    tableName: 'Skills',
+    timestamps: false,
+  }
+);
 
 export default Skill;

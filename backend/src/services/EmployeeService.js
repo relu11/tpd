@@ -1,10 +1,14 @@
+import Employee from '../models/Employee';
+import EmployeeTraining from '../models/EmployeeTraining';
+import EmployeeCertificate from '../models/EmployeeCertificates';
 class EmployeeService {
   /**
    * Gets all employee data
    * @param {String} _employeeId The ID of the employee
    */
   static getEmployee(_employeeId) {
-    /* */
+    const employees = Employee.getEmployee(_employeeId);
+    return employees;
   }
 
   /**
@@ -12,8 +16,9 @@ class EmployeeService {
    * @param {Object} _filters - Filters for retireved data
    * @returns {Object[]} All employees data
    */
-  static getEmployeesList(_filters) {
-    /* */
+  static getEmployeesList() {
+    const employees = Employee.getAllEmployees();
+    return employees;
   }
 
   /**
@@ -28,16 +33,26 @@ class EmployeeService {
    * Gets the certificates of the employee
    * @param {Number} _employeeId - The ID of the employee
    */
-  static getEmployeeCertificates(_employeeId) {
-    /* */
+  static async getEmployeeCertificates(_employeeId) {
+    const certificate = await EmployeeCertificate.findAll({
+      where: {
+        employeeId: _employeeId,
+      },
+    });
+    return trainings;
   }
 
   /**
    * Gets the trainings of the employee
    * @param {Number} _employeeId -The ID of the employee
    */
-  static getEmployeeTrainings(_employeeId) {
-    /* */
+  static async getEmployeeTrainings(_employeeId) {
+    const trainings = await EmployeeTraining.findAll({
+      where: {
+        employeeId: _employeeId,
+      },
+    });
+    return trainings;
   }
 }
 
