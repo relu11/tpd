@@ -10,7 +10,7 @@ CertificationProvider.init(
   },
   {
     sequelize,
-    modelName: 'CertificationProvider',
+    modelName: 'CertificationProviders',
     freezeTableName: true,
     timestamps: false,
   }

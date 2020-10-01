@@ -1,4 +1,3 @@
-import { where } from 'sequelize/types';
 import CertificationProvider from '../models/CertificationProvider';
 class CertificationProviderService {
   /**

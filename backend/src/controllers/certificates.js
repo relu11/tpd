@@ -1,5 +1,7 @@
 import express from 'express';
 import CertificationService from '../services/CertificationService';
+import CertificationProviderService from '../services/CertificationProviderService';
+
 /**
  * Gets all certificates
  * @param {express.Request} req - Request Object
@@ -103,6 +105,7 @@ export const getCertificatesHistory = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getCertificateProviders = (req, res) => {
-  res.send('Gets the tracking list of employees certificates');
+export const getCertificateProviders = async (req, res) => {
+  const providers = await CertificationProviderService.getAllCertificationProviders();
+  res.send(providers);
 };

@@ -1,11 +1,13 @@
+import EmployeeTraining from '../models/EmployeeTraining';
 class TrainingService {
   /**
    * Gets all Trainings
    * @param {Object} [_filters] - Filters for retireved data
    * @returns {Object[]} All Trainings
    */
-  static getAllTrainings(_filters) {
-    /* */
+  static async getAllTrainings(_filters) {
+    const trainings = await EmployeeTraining.findAll();
+    return trainings;
   }
 
   /**

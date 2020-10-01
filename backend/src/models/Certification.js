@@ -1,7 +1,25 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
+import CertificationService from '../services/CertificationService';
+import CertificationProvider from '../models/CertificationProvider';
 
-class Certification extends Model {}
+class Certification extends Model {
+  static async getAllCertification() {
+    Certification.belongsTo(CertificationProvider, {
+      foreignKey: 'certificationProviderId',
+    });
+    const certifications = await Certification.findAll({
+      include: [
+        {
+          model: CertificationProvider,
+          required: true,
+          attributes: ['certificationProviderName'],
+        },
+      ],
+    });
+    return certifications;
+  }
+}
 
 Certification.init(
   {
