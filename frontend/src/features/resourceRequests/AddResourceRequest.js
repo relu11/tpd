@@ -39,18 +39,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function AddResourceRequest() {
-    const [manager_name, setManagerName] = useState('');
+    const [managerName, setManagerName] = useState('');
     const [employeeFunction, setEmployeeFunction] = useState('');
     const [title, setTitle] = useState('');
-    const [core_team_member, setCore_team_member] = useState(false);
+    const [coreteammember, setCoreTeamMember] = useState(false);
     const [replacement, setReplacement] = useState(false);
-    const [replacement_for, setReplacement_for] = useState('');
-    const [requests_count, setRequests_count] = useState(1);
+    const [replacementFor, setReplacementFor] = useState('');
+    const [requestsCount, setRequests_count] = useState(1);
     const [probability, setProbability] = useState(0);
     const [percentage, setPercentage] = useState(0);
-    const [related_opportunity, setRelated_opportunity] = useState('');
-    const [start_date, setStart_date] = useState(new Date().toDateString());
-    const [end_date, setEnd_date] = useState(new Date().toDateString());
+    const [relatedOpportunity, setRelated_opportunity] = useState('');
+    const [startDate, setStart_date] = useState(new Date().toDateString());
+    const [endDate, setEnd_date] = useState(new Date().toDateString());
     const [comments, setComments] = useState('');
     const [currentTab, setCurrentTab] = useState('details');
     const [currentCategory, setCurrentCategory] = useState('');
@@ -65,8 +65,8 @@ function AddResourceRequest() {
 
     const handleSubmit = e => {
         e.preventDefault();
-        let startDate = new Date(start_date);
-        let endDate = new Date(end_date);
+        let startDate = new Date(startDate);
+        let endDate = new Date(endDate);
 
         startDate = `${startDate.getFullYear()}-${
             startDate.getMonth() + 1
@@ -75,18 +75,18 @@ function AddResourceRequest() {
             endDate.getMonth() + 1
         }-${endDate.getDate()}`;
         const data = {
-            manager_name,
+            managerName,
             function: employeeFunction,
             title,
-            core_team_member,
+            coreteammember,
             replacement,
-            replacement_for,
-            requests_count,
+            replacementFor,
+            requestsCount,
             probability,
             percentage,
-            related_opportunity,
-            start_date: startDate,
-            end_date: endDate,
+            relatedOpportunity,
+            startDate,
+            endDate,
             comments,
         };
         dispatch(postResourceRequest(data));
@@ -161,7 +161,7 @@ function AddResourceRequest() {
                                     className={classes.formField}
                                     size='small'
                                     variant='outlined'
-                                    value={manager_name}
+                                    value={managerName}
                                     label='Manager Name'
                                     onChange={e =>
                                         setManagerName(e.target.value)
@@ -199,7 +199,7 @@ function AddResourceRequest() {
                                     className={classes.formField}
                                     size='small'
                                     variant='outlined'
-                                    value={requests_count}
+                                    value={requestsCount}
                                     label='Number of Requests'
                                     onChange={e =>
                                         setRequests_count(e.target.value)
@@ -228,10 +228,10 @@ function AddResourceRequest() {
                                     className={classes.formField}
                                     size='small'
                                     variant='outlined'
-                                    value={replacement_for}
+                                    value={replacementFor}
                                     label='Replacement For'
                                     onChange={e =>
-                                        setReplacement_for(e.target.value)
+                                        setReplacementFor(e.target.value)
                                     }
                                 />
                             </Grid>
@@ -240,9 +240,9 @@ function AddResourceRequest() {
                                     className={classes.formField}
                                     control={
                                         <Checkbox
-                                            checked={core_team_member}
+                                            checked={coreteammember}
                                             onChange={e =>
-                                                setCore_team_member(
+                                                setCoreTeamMember(
                                                     e.target.checked
                                                 )
                                             }
@@ -315,7 +315,7 @@ function AddResourceRequest() {
                                     className={classes.formField}
                                     size='small'
                                     variant='outlined'
-                                    value={related_opportunity}
+                                    value={relatedOpportunity}
                                     label='Related Opportunity'
                                     onChange={e =>
                                         setRelated_opportunity(e.target.value)
@@ -328,7 +328,7 @@ function AddResourceRequest() {
                                     format='dd/MM/yyyy'
                                     margin='normal'
                                     label='Start Date'
-                                    value={new Date(start_date)}
+                                    value={new Date(startDate)}
                                     onChange={handleStartDateChange}
                                     KeyboardButtonProps={{
                                         name: 'resource_date',
@@ -343,7 +343,7 @@ function AddResourceRequest() {
                                     format='dd/MM/yyyy'
                                     margin='normal'
                                     label='End Date'
-                                    value={new Date(end_date)}
+                                    value={new Date(endDate)}
                                     onChange={handleEndDateChange}
                                     KeyboardButtonProps={{
                                         name: 'resource_date',

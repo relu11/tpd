@@ -73,7 +73,7 @@ function EditResourceRequest() {
     const classes = useStyles();
 
     const handleChange = e => {
-        if (e.target.name === 'action_taken' && !currentRequest.actionChanged)
+        if (e.target.name === 'actionTaken' && !currentRequest.actionChanged)
             dispatch(updateCurrentResourceRequest({ actionChanged: true }));
         dispatch(
             updateCurrentResourceRequest({ [e.target.name]: e.target.value })
@@ -108,12 +108,12 @@ function EditResourceRequest() {
 
     const handleStartDateChange = date => {
         date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-        dispatch(updateCurrentResourceRequest({ start_date: date }));
+        dispatch(updateCurrentResourceRequest({ startDate: date }));
     };
 
     const handleEndDateChange = date => {
         date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-        dispatch(updateCurrentResourceRequest({ end_date: date }));
+        dispatch(updateCurrentResourceRequest({ endDate: date }));
     };
 
     const renderRedirect = () => {
@@ -152,8 +152,8 @@ function EditResourceRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='manager_name'
-                                        value={currentRequest.manager_name}
+                                        name='managerName'
+                                        value={currentRequest.managerName}
                                         label='Manager Name'
                                         onChange={handleChange}
                                         required
@@ -189,8 +189,8 @@ function EditResourceRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='requests_count'
-                                        value={currentRequest.requests_count}
+                                        name='requestsCount'
+                                        value={currentRequest.requestsCount}
                                         label='Number of Requests'
                                         onChange={handleChange}
                                         required
@@ -217,9 +217,9 @@ function EditResourceRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='replacement_for'
+                                        name='replacementFor'
                                         value={
-                                            currentRequest.replacement_for || ''
+                                            currentRequest.replacementFor || ''
                                         }
                                         label='Replacement For'
                                         onChange={handleChange}
@@ -230,9 +230,9 @@ function EditResourceRequest() {
                                         className={classes.formField}
                                         control={
                                             <Checkbox
-                                                name='core_team_member'
+                                                name='coreTeamMember'
                                                 checked={
-                                                    currentRequest.core_team_member
+                                                    currentRequest.coreTeamMember
                                                 }
                                                 onChange={handleCheckChange}
                                                 name='core-team-member'
@@ -302,9 +302,9 @@ function EditResourceRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='related_opportunity'
+                                        name='relatedOpportunity'
                                         value={
-                                            currentRequest.related_opportunity
+                                            currentRequest.relatedOpportunity
                                         }
                                         label='Related Opportunity'
                                         onChange={handleChange}
@@ -316,13 +316,13 @@ function EditResourceRequest() {
                                         format='dd/MM/yyyy'
                                         margin='normal'
                                         label='Start Date'
-                                        name='start_date'
+                                        name='startDate'
                                         value={
-                                            new Date(currentRequest.start_date)
+                                            new Date(currentRequest.startDate)
                                         }
                                         onChange={handleStartDateChange}
                                         KeyboardButtonProps={{
-                                            name: 'resource_date',
+                                            name: 'startDate',
                                             'aria-label': 'choose start date',
                                         }}
                                         required
@@ -334,13 +334,11 @@ function EditResourceRequest() {
                                         format='dd/MM/yyyy'
                                         margin='normal'
                                         label='End Date'
-                                        name='end_date'
-                                        value={
-                                            new Date(currentRequest.end_date)
-                                        }
+                                        name='endDate'
+                                        value={new Date(currentRequest.endDate)}
                                         onChange={handleEndDateChange}
                                         KeyboardButtonProps={{
-                                            name: 'resource_date',
+                                            name: 'endDate',
                                             'aria-label': 'choose end date',
                                         }}
                                         required
@@ -419,8 +417,8 @@ function EditResourceRequest() {
                                             className={classes.selectField}
                                             size='small'
                                             variant='outlined'
-                                            name='action_taken'
-                                            value={currentRequest.action_taken}
+                                            name='actionTaken'
+                                            value={currentRequest.actionTaken}
                                             labelId='action-select-label'
                                             onChange={handleChange}
                                         >
@@ -445,14 +443,14 @@ function EditResourceRequest() {
                                         format='dd/MM/yyyy'
                                         margin='normal'
                                         label='Actual Start Date'
-                                        name='actual_start_date'
+                                        name='actualStartDate'
                                         value={
-                                            currentRequest.actual_start_date
+                                            currentRequest.actualStartDate
                                                 ? new Date(
-                                                      currentRequest.actual_start_date
+                                                      currentRequest.actualStartDate
                                                   )
                                                 : new Date(
-                                                      currentRequest.start_date
+                                                      currentRequest.startDate
                                                   )
                                         }
                                         onChange={handleStartDateChange}
@@ -468,14 +466,14 @@ function EditResourceRequest() {
                                         format='dd/MM/yyyy'
                                         margin='normal'
                                         label='End Date'
-                                        name='actual_end_date'
+                                        name='actualEndDate'
                                         value={
-                                            currentRequest.actual_end_date
+                                            currentRequest.actualEndDate
                                                 ? new Date(
-                                                      currentRequest.actual_end_date
+                                                      currentRequest.actualEndDate
                                                   )
                                                 : new Date(
-                                                      currentRequest.end_date
+                                                      currentRequest.endDate
                                                   )
                                         }
                                         onChange={handleEndDateChange}

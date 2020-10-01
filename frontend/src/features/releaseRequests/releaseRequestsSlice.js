@@ -29,10 +29,13 @@ export const formatRequest = request => {
 
 export const fetchReleaseRequests = createAsyncThunk(
     'release/fetchRequests',
-    async () => {
+    async (_, { getState }) => {
+        const state = getState();
         const requestOptions = {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
         };
         console.log(`${API_URL}/requests/release`);
         const res = await fetch(`${API_URL}/requests/release`, requestOptions);
@@ -43,11 +46,15 @@ export const fetchReleaseRequests = createAsyncThunk(
 
 export const postReleaseRequest = createAsyncThunk(
     'release/postRequest',
-    async request => {
+    async (request, { getState }) => {
+        const state = getState();
         // Post the request to the api
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
             body: JSON.stringify(request),
         };
         await fetch(`${API_URL}/requests/release`, requestOptions);
@@ -57,10 +64,14 @@ export const postReleaseRequest = createAsyncThunk(
 
 export const patchReleaseRequest = createAsyncThunk(
     'release/patchRequest',
-    async request => {
+    async (request, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
             body: JSON.stringify(request),
         };
         await fetch(
@@ -72,9 +83,13 @@ export const patchReleaseRequest = createAsyncThunk(
 
 export const deleteReleaseRequest = createAsyncThunk(
     'release/deleteRequest',
-    async requestId => {
+    async (requestId, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
         };
         await fetch(`${API_URL}/requests/release/${requestId}`, requestOptions);
     }
@@ -82,12 +97,14 @@ export const deleteReleaseRequest = createAsyncThunk(
 
 export const getReleaseRequest = createAsyncThunk(
     'release/getRequest',
-    async requestId => {
+    async (requestId, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
             },
         };
         const res = await fetch(

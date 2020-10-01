@@ -10,7 +10,7 @@ const initialState = {
     requests: [],
     currentRequest: null,
     filters: {
-        manager_name: '',
+        managerName: '',
         title: '',
         function: '',
         status: '',
@@ -18,28 +18,31 @@ const initialState = {
 };
 
 export const formatRequest = request => {
-    request.probability = request.propability;
-    if (typeof request.start_date !== Date) {
-        request.start_date = new Date(request.start_date);
-        request.start_date = `${request.start_date.getFullYear()}-${
-            request.start_date.getMonth() + 1
-        }-${request.start_date.getDate()}`;
+    if (typeof request.startDate !== Date) {
+        request.startDate = new Date(request.startDate);
+        request.startDate = `${request.startDate.getFullYear()}-${
+            request.startDate.getMonth() + 1
+        }-${request.startDate.getDate()}`;
     }
-    if (typeof request.end_date !== Date) {
-        request.end_date = new Date(request.end_date);
-        request.end_date = `${request.end_date.getFullYear()}-${
-            request.end_date.getMonth() + 1
-        }-${request.end_date.getDate()}`;
+    if (typeof request.endDate !== Date) {
+        request.endDate = new Date(request.endDate);
+        request.endDate = `${request.endDate.getFullYear()}-${
+            request.endDate.getMonth() + 1
+        }-${request.endDate.getDate()}`;
     }
     return request;
 };
 
 export const fetchResourceRequests = createAsyncThunk(
     'resource/fetchRequests',
-    async () => {
+    async (_, { getState }) => {
+        const state = getState();
         const requestOptions = {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
         };
         console.log(`${API_URL}/requests/resource`);
         const res = await fetch(`${API_URL}/requests/resource`, requestOptions);
@@ -51,11 +54,15 @@ export const fetchResourceRequests = createAsyncThunk(
 
 export const postResourceRequest = createAsyncThunk(
     'resource/postRequest',
-    async request => {
+    async (request, { getState }) => {
+        const state = getState();
         // Post the request to the api
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
             body: JSON.stringify(request),
         };
         await fetch(`${API_URL}/requests/resource`, requestOptions);
@@ -65,10 +72,14 @@ export const postResourceRequest = createAsyncThunk(
 
 export const patchResourceRequest = createAsyncThunk(
     'resource/patchRequest',
-    async request => {
+    async (request, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
             body: JSON.stringify(request),
         };
         await fetch(
@@ -80,9 +91,13 @@ export const patchResourceRequest = createAsyncThunk(
 
 export const deleteResourceRequest = createAsyncThunk(
     'resource/deleteRequest',
-    async requestId => {
+    async (requestId, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
         };
         await fetch(
             `${API_URL}/requests/resource/${requestId}`,
@@ -93,12 +108,14 @@ export const deleteResourceRequest = createAsyncThunk(
 
 export const getResourceRequest = createAsyncThunk(
     'resource/getRequest',
-    async requestId => {
+    async (requestId, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
             },
         };
         const res = await fetch(
