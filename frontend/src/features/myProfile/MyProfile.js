@@ -44,3 +44,105 @@ function MyProfile() {
 }
 
 export default MyProfile;
+import { toggleDrawerOpen } from './navigationSlice';
+
+function MyProfile() {
+    const classes = useDrawerStyles();
+    const dispatch = useDispatch();
+    const open = useSelector(state => state.nav.drawerOpen);
+    const toggleDrawer = () => dispatch(toggleDrawerOpen());
+    return (
+        <div>
+            <AppBar
+                position='fixed'
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+                color='inherit'
+            >
+                <Toolbar>
+                    <IconButton
+                        color='secondary'
+                        aria-label='open drawer'
+                        onClick={toggleDrawer}
+                        edge='start'
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant='h6' noWrap></Typography>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
+}
+
+export default MyProfile;
+import { toggleDrawerOpen } from './navigationSlice';
+
+function MyProfile() {
+    const classes = useDrawerStyles();
+    const dispatch = useDispatch();
+    const open = useSelector(state => state.nav.drawerOpen);
+    const toggleDrawer = () => dispatch(toggleDrawerOpen());
+    return (
+        <div>
+            <AppBar
+                position='fixed'
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+                color='inherit'
+            >
+                <Toolbar>
+                    <IconButton
+                        color='secondary'
+                        aria-label='open drawer'
+                        onClick={toggleDrawer}
+                        edge='start'
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant='h6' noWrap></Typography>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
+}
+
+export default MyProfile;
+import { toggleDrawerOpen } from './navigationSlice';
+
+function MyProfile() {
+    const classes = useDrawerStyles();
+    const dispatch = useDispatch();
+    const open = useSelector(state => state.nav.drawerOpen);
+    const toggleDrawer = () => dispatch(toggleDrawerOpen());
+    return (
+        <div>
+            <AppBar
+                position='fixed'
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+                color='inherit'
+            >
+                <Toolbar>
+                    <IconButton
+                        color='secondary'
+                        aria-label='open drawer'
+                        onClick={toggleDrawer}
+                        edge='start'
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant='h6' noWrap></Typography>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
+}
+
+export default MyProfile;

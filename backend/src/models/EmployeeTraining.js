@@ -1,7 +1,25 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
+import Employee from '../models/Employee';
 
-class EmployeeTraining extends Model {}
+class EmployeeTraining extends Model {
+  static async getEmployeeTraining(id) {
+    const trainings = await EmployeeTraining.findAll({
+      where: {
+        employeeId: id,
+      },
+    });
+    return trainings;
+  }
+
+  static async getTrainings() {
+    EmployeeTraining.belongsTo(Employee, { foreignKey: 'id' });
+    const trainings = await EmployeeTraining.findAll({
+      include: [{ model: Employee, required: true, attributes: ['name'] }],
+    });
+    return trainings;
+  }
+}
 
 EmployeeTraining.init(
   {

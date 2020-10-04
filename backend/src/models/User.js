@@ -25,6 +25,7 @@ User.init(
     password: { type: DataTypes.STRING(32) },
     email: { type: DataTypes.STRING },
     role: { type: DataTypes.INTEGER },
+    employeeId: { type: DataTypes.STRING(36) },
   },
   {
     sequelize,

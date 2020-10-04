@@ -7,23 +7,29 @@ class SkillService {
    * @returns {Object} Skill Data
    */
   static async addSkill(_skillData) {
-    const skill = new Skill();
-    skill.skillName = _skillData.skillName;
-
-    return skill.addSkill();
+    const skill = await Skill.create({
+      skillName: _skillData.skillName,
+    });
+    console.log({ skill });
+    return skill;
   }
 
   /**
    * Updates skill data
+   * @param {Number} skillId - The ID of the skill to update
    * @param {Object} _skillData - New Skill Data
-   * @param {Number} _skillData.id - The ID of the skill to update
    * @returns {Object} Skill Data After Modification
    */
-  static async updateSkill(_skillData) {
-    const skill = new Skill();
-    skill.skillName = _skillData.skillName;
-    skill.skillId = _skillData.skillId;
-    return skill.editSkill();
+  static async updateSkill(skillId, _skillData) {
+    const skill = await Skill.update(
+      {
+        skillName: _skillData.skillName,
+      },
+      {
+        where: { skillId },
+      }
+    );
+    return skill;
   }
 
   /**
@@ -31,8 +37,9 @@ class SkillService {
    * @param {Number} _skillId - The Id of the skill
    * @returns {Number} Deleted Skill ID
    */
-  static deleteSkill(_skillId) {
-    return Skill.deleteSkill(_skillId);
+  static async deleteSkill(_skillId) {
+    const skillId = await Skill.deleteSkill(_skillId);
+    return skillId;
   }
 
   /**

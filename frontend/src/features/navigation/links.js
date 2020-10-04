@@ -12,6 +12,12 @@ import ResourceRequests from '../resourceRequests/ResourceRequests';
 import AddResourceRequest from '../resourceRequests/AddResourceRequest';
 import EditResourceRequest from '../resourceRequests/EditResourceRequest';
 import EditReleaseRequest from '../releaseRequests/EditReleaseRequest';
+import YourSkills from '../skills/YourSkills';
+import SkillList from '../skills/SkillList';
+import YourTrainings from '../trainings/YourTrainings';
+import YourCertifications from '../certifications/YourCertifications';
+import CertificationList from '../certifications/CertificationList';
+
 /**
  * Links for routing and navigation
  * @type {{ id: string, path?: String, component?: React.Component, inDrawer: boolean, title: String, children?: Object[], parent?: boolean, roles: ['tpd' | 'manager' | 'employee'], icon?: any }[]}
@@ -107,6 +113,7 @@ const links = [
                         title: 'My Skills',
                         icon: BulbIcon,
                         roles: ['manager', 'tpd', 'employee'],
+                        component: YourSkills,
                     },
                     {
                         id: 'skills-list',
@@ -115,6 +122,7 @@ const links = [
                         title: 'Skills List',
                         icon: BulbIcon,
                         roles: ['tpd'],
+                        component: SkillList,
                     },
                     {
                         id: 'skills-history',
@@ -140,6 +148,7 @@ const links = [
                         title: 'My Certifications',
                         icon: CardMembershipIcon,
                         roles: ['manager', 'tpd', 'employee'],
+                        component: YourCertifications,
                     },
                     {
                         id: 'certifications-list',
@@ -148,6 +157,7 @@ const links = [
                         title: 'Certifications List',
                         icon: CardMembershipIcon,
                         roles: ['tpd'],
+                        component: CertificationList,
                     },
                     {
                         id: 'certifications-privders',
@@ -182,6 +192,7 @@ const links = [
                         title: 'My Trainings',
                         icon: CardMembershipIcon,
                         roles: ['manager', 'tpd', 'employee'],
+                        component: YourTrainings,
                     },
                     {
                         id: 'all-trainings',

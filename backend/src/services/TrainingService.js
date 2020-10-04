@@ -6,34 +6,8 @@ class TrainingService {
    * @returns {Object[]} All Trainings
    */
   static async getAllTrainings(_filters) {
-    const trainings = await EmployeeTraining.findAll();
+    const trainings = await EmployeeTraining.getTrainings();
     return trainings;
-  }
-
-  /**
-   * Creates new Training
-   * @param {Object} _TrainingData New Training data
-   * @returns {Object} New Training data
-   */
-  static addTraining(_TrainingData) {
-    /* */
-  }
-
-  /**
-   * Updates Training data
-   * @param {Object} _TrainingData Updated Training data
-   * @returns {Object} Training data after modification
-   */
-  static updateTraining(_TrainingData) {
-    /* */
-  }
-
-  /**
-   * Deletes a Training
-   * @param {Number} _TrainingID - ID of the Training to delete
-   */
-  static deleteTraining(_TrainingID) {
-    /* */
   }
 
   /**
@@ -41,8 +15,9 @@ class TrainingService {
    * @param {Number} _TrainingID - The ID of the Training
    * @returns {Object} Training data
    */
-  static getTraining(_TrainingID) {
-    /* */
+  static async getEmployeeTraining(_employeeId) {
+    const trainings = await EmployeeTraining.getEmployeeTraining(_employeeId);
+    return trainings;
   }
 }
 

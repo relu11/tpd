@@ -1,6 +1,7 @@
 import Employee from '../models/Employee';
 import SkillService from '../services/SkillService';
 import EmployeeSkills from '../models/EmployeeSkills';
+
 class EmployeeSkillsService {
   /**
    * Adds a new employee skill
@@ -9,17 +10,23 @@ class EmployeeSkillsService {
    * @returns {Object} Employee skill data
    */
   static async addEmployeeSkill(_skillData, _employeeId) {
+    let skillId;
+    console.log(_skillData);
     if (_skillData.isNew) {
-      SkillService.addSkill(_skillData);
+      const skill = await SkillService.addSkill(_skillData);
+      skillId = skill.skillId;
+      console.log({ skillId });
+    } else {
+      skillId = _skillData.skillId;
     }
 
-    const skill = await EmployeeSkills.create({
+    const employeeSkill = await EmployeeSkills.create({
       employeeId: _employeeId,
-      skillId: _skillData.skillId,
+      skillId,
       experienceLevel: _skillData.experienceLevel,
       lastUsedDate: _skillData.lastUsedDate,
     });
-    return skill;
+    return employeeSkill;
   }
 
   /**
@@ -67,12 +74,7 @@ class EmployeeSkillsService {
    * @returns {Object} Skill data
    */
   static async getEmployeeSkill(_skillId, _employeeId) {
-    const skill = await EmployeeSkills.findOne({
-      where: {
-        skillId: _skillId,
-        employeeId: _employeeId,
-      },
-    });
+    const skill = await EmployeeSkills.getSkill(_skillId, _employeeId);
     return skill;
   }
 
@@ -83,9 +85,7 @@ class EmployeeSkillsService {
    * @returns {Object[]} All skills data
    */
   static async getAllEmployeesSkills(id) {
-    const skills = await EmployeeSkills.getSkills(
-      '00376965-8F0E-4272-98AA-052DA616E8C1'
-    );
+    const skills = await EmployeeSkills.getSkills(id);
     return skills;
   }
 }

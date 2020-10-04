@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
-import CertificationService from '../services/CertificationService';
-import CertificationProvider from '../models/CertificationProvider';
+import CertificationProvider from './CertificationProvider';
 
 class Certification extends Model {
   static async getAllCertification() {
@@ -23,7 +22,11 @@ class Certification extends Model {
 
 Certification.init(
   {
-    certificationId: { type: DataTypes.INTEGER, primaryKey: true },
+    certificationId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     certificationProviderId: { type: DataTypes.INTEGER },
     certificationName: { type: DataTypes.STRING(128) },
   },
