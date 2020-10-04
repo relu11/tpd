@@ -41,6 +41,7 @@ function App() {
             );
             if (lsCurrentUser) dispatch(setCurrentUser(lsCurrentUser));
             setCheckedLS(true);
+            console.log(links.filter(l => l.component));
         }
     });
 
@@ -68,6 +69,27 @@ function App() {
                                         <sublink.component />
                                     </Route>
                                 ))
+                        )}
+                    {links
+                        .filter(l => l.children)
+                        .map(l =>
+                            l.children
+                                .filter(sublink => sublink.children)
+                                .map(sublink =>
+                                    sublink.children
+                                        .filter(
+                                            subsublink => subsublink.component
+                                        )
+                                        .map(subsublink => (
+                                            <Route
+                                                exact
+                                                path={subsublink.path}
+                                                key={subsublink.path}
+                                            >
+                                                <subsublink.component />
+                                            </Route>
+                                        ))
+                                )
                         )}
                     <Route exact path='/'>
                         Hello, world!

@@ -38,12 +38,17 @@ class CertificationService {
   }
 
   /**
-   * Gets a certification
-   * @param {Number} _certificationID - The ID of the certification
-   * @returns {Object} Certification data
+   * Gets certificate provider
+   * @param {Number} _providerId - Provider ID
+   * @returns {Object} Provider Data
    */
-  static getCertification(_certificationID) {
-    /* */
+  static async getCertification(certificationId) {
+    const certification = await Certification.findOne({
+      where: {
+        certificationId,
+      },
+    });
+    return certification;
   }
 }
 

@@ -4,7 +4,7 @@ import Skill from '../models/Skill';
 
 class EmployeeSkill extends Model {
   static async getSkills(id) {
-    EmployeeSkill.belongsTo(Skill, { foreignKey: 'SkillId' });
+    EmployeeSkill.belongsTo(Skill, { foreignKey: 'skillId' });
 
     const employeeSkills = await EmployeeSkill.findAll({
       where: {
@@ -12,8 +12,22 @@ class EmployeeSkill extends Model {
       },
       include: [{ model: Skill, required: true, attributes: ['skillName'] }],
     });
-    console.log(employeeSkills);
+
     return employeeSkills;
+  }
+
+  static async getSkill(skillID, empId) {
+    EmployeeSkill.belongsTo(Skill, { foreignKey: 'skillId' });
+
+    const employeeSkill = await EmployeeSkill.findOne({
+      where: {
+        employeeId: empId,
+        skillId: skillID,
+      },
+      include: [{ model: Skill, required: true, attributes: ['skillName'] }],
+    });
+
+    return employeeSkill;
   }
 }
 

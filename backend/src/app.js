@@ -22,14 +22,15 @@ app.use('/api/', indexRouter);
 app.use('/api/requests/release', releaseRequestsRouter);
 app.use('/api/requests/resource', resourceRequestRouter);
 app.use('/api/skills', skillsRouter);
-app.use('/api/certificates', certificatesRouter);
+app.use('/api/certifications', certificatesRouter);
 app.use('/api/trainings', trainingsRouter);
 app.use('/api/employees', employeesRouter);
 app.use('/api/logIn', logInRouter);
 
 // Handles any requests that don't match the ones above
+app.use(express.static(`${__dirname}/../../frontend/build`));
 app.get('*', (req, res) => {
-  console.log(`${__dirname}/frontend/build/index.html`);
+  console.log(`${__dirname}/../../frontend/build/index.html`);
   res.sendFile(path.join(`${__dirname}/../../frontend/build/index.html`));
 });
 

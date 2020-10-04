@@ -26,10 +26,10 @@ class Skill extends Model {
 
   async addSkill() {
     try {
-      const skills = await Skill.create({
+      const skill = await Skill.create({
         skillName: this.skillName,
       });
-      return skills;
+      return skill;
     } catch (err) {
       return err;
     }
@@ -54,7 +54,7 @@ class Skill extends Model {
 
 Skill.init(
   {
-    skillId: { type: DataTypes.INTEGER, primaryKey: true },
+    skillId: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     skillName: { type: DataTypes.STRING(45) },
   },
   {

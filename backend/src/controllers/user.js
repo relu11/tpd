@@ -15,7 +15,12 @@ export const logIn = async (req, res) => {
     const user = await User.logIn(req.body.email, req.body.password);
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        employeeId: user.employeeId,
+      },
       process.env.TOKEN_SECRET
     );
     res.header('auth-token', token).send({ token });

@@ -1,4 +1,6 @@
+import Certification from '../models/Certification';
 import CertificationProvider from '../models/CertificationProvider';
+
 class CertificationProviderService {
   /**
    * Gets all certification providers

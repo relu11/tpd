@@ -10,7 +10,10 @@ import {
   deleteEmployeeCertificate,
   getCertificatesHistory,
   getCertificateProviders,
+  getEmployeeCertificate,
+  getCertification,
 } from '../controllers';
+import { loggedIn } from '../services/Authorization';
 
 const router = express.Router();
 
@@ -20,7 +23,7 @@ const router = express.Router();
  * @RequestQueryParameters [filters]
  * @Response Certificates List
  */
-router.get('/', getAllCertificates);
+router.get('/', loggedIn, getAllCertificates);
 
 /**
  * Add Certificate
@@ -28,7 +31,7 @@ router.get('/', getAllCertificates);
  * @RequestBody Certificate Data
  * @Response Added Certificate
  */
-router.post('/', addCertificate);
+router.post('/', loggedIn, addCertificate);
 
 /**
  * Employees Certificate Providers List
@@ -36,7 +39,7 @@ router.post('/', addCertificate);
  * @RequestQueryParameters [filters]
  * @Response List of Certificate Providers
  */
-router.get('/providers', getCertificateProviders);
+router.get('/providers', loggedIn, getCertificateProviders);
 /**
  * Ediit Certificate
  * @Authorization [TPD]
@@ -44,7 +47,7 @@ router.get('/providers', getCertificateProviders);
  * @RequestBody New Certificate Data
  * @Response Modified Certificate Data
  */
-router.patch('/:certificateId', editCertificate);
+router.patch('/:certificationId', loggedIn, editCertificate);
 
 /**
  * Delete Certificate
@@ -52,14 +55,14 @@ router.patch('/:certificateId', editCertificate);
  * @RequestParams Certificate ID
  * @Response Deleted Certificate ID
  */
-router.delete('/:certificateId', deleteCertificate);
+router.delete('/:certificationId', loggedIn, deleteCertificate);
 
 /**
  * Your Certificates - Returns the certificates of the employee
  * @Authorization [Employee]
  * @Response Certificates List
  */
-router.get('/my/', getEmployeeCertificates);
+router.get('/my/', loggedIn, getEmployeeCertificates);
 
 /**
  * Add Employee Certificate
@@ -67,23 +70,31 @@ router.get('/my/', getEmployeeCertificates);
  * @RequestBody New Certificate Data
  * @Response Added Certificate
  */
-router.post('/my/', addEmployeeCertificate);
+router.post('/my/', loggedIn, addEmployeeCertificate);
 
 /**
  * Edit Employee Certificate
  * @Authorization [Employee]
- * @RequestParameters certificateId - The id of the certificate to edit
+ * @RequestParameters certificationId - The id of the certificate to edit
  * @Response Certificates List
  */
-router.patch('/my/:certificateId', editEmployeeCertificate);
+router.patch('/my/:certificationId', loggedIn, editEmployeeCertificate);
+
+/**
+ * Get Employee Certificate
+ * @Authorization [Employee]
+ * @RequestParameters certificationId - The id of the certificate to edit
+ * @Response Certificates List
+ */
+router.get('/my/:certificationId', loggedIn, getEmployeeCertificate);
 
 /**
  * Delete Employee Certificate
  * @Authorization [Employee]
- * @RequestParameters certificateId - The id of the certificate to edit
+ * @RequestParameters certificationId - The id of the certificate to edit
  * @Response Certificates List
  */
-router.delete('/my/:certificateId', deleteEmployeeCertificate);
+router.delete('/my/:certificationId', loggedIn, deleteEmployeeCertificate);
 
 /**
  * Employees Certificates History
@@ -91,6 +102,15 @@ router.delete('/my/:certificateId', deleteEmployeeCertificate);
  * @RequestQueryParameters [filters]
  * @Response List of history of employees' certificates
  */
-router.get('/tracking/history', getCertificatesHistory);
+router.get('/tracking/history', loggedIn, getCertificatesHistory);
+
+/**
+ * Gets a Certificate
+ * @Authorization [TPD]
+ * @RequestParams Certificate ID
+ * @RequestBody New Certificate Data
+ * @Response Modified Certificate Data
+ */
+router.get('/:certificationId', loggedIn, getCertification);
 
 export default router;

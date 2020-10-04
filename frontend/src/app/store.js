@@ -3,6 +3,8 @@ import navReducer from '../features/navigation/navigationSlice';
 import authReducer from '../features/auth/authSlice';
 import releaseRequestsReducer from '../features/releaseRequests/releaseRequestsSlice';
 import resourceRequestsReducer from '../features/resourceRequests/resourceRequestsSlice';
+import skillsReducer from '../features/skills/skillsSlice';
+import certificationsReducer from '../features/certifications/certificationsSlice';
 
 export default configureStore({
     reducer: {
@@ -10,5 +12,7 @@ export default configureStore({
         auth: authReducer,
         release: releaseRequestsReducer,
         resource: resourceRequestsReducer,
+        skills: skillsReducer,
+        certifications: certificationsReducer,
     },
 });
