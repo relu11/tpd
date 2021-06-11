@@ -1,4 +1,3 @@
-import Model from './Model';
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
