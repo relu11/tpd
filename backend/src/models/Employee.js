@@ -34,15 +34,18 @@ class Employee extends Model {
     this.employeeProfilePicture = employeeProfilePicture;
     this.mobileNumber = mobileNumber;
     this.costCenter = costCenter;
-    }
+  }
+
   static async getAllEmployees() {
     const employees = await Employee.findAll();
     return employees;
   }
+
   static async getEmployee(id) {
     const employee = await Employee.findByPk(id);
     return employee;
   }
+
   static async getEmployeeProfile(id) {
     const sql = `select * from employees_profiles where id = "${id}"`;
     const result = await this.query(sql);

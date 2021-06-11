@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { DATABASE_URL } from './config';
 
-const sequelize = new Sequelize(DATABASE_URL);
+const sequelize = new Sequelize(DATABASE_URL, { dialect: 'mysql' });
 
 (async () => {
   try {

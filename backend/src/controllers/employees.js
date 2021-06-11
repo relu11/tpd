@@ -26,7 +26,7 @@ export const getEmployee = async (req, res) => {
   );
 
   res.send(employeeProfile);
-
+};
 
 /**
  * Edits an Employee Assignment
