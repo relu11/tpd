@@ -75,6 +75,7 @@ export const getEmployeeSkills = async (req, res) => {
  * @param {Object} req.body.skill - Skill Data
  * @param {express.Response} res - Response Object
  */
+
 export const addEmployeeSkill = async (req, res) => {
   const skill = await EmployeeSkillsService.addEmployeeSkill(
     req.body,
@@ -104,6 +105,7 @@ export const getEmployeeSkill = async (req, res) => {
  * @param {Object} req.params.skillId - Skill ID
  * @param {express.Response} res - Response Object
  */
+
 export const editEmployeeSkill = async (req, res) => {
   await EmployeeSkillsService.updateEmployeeSkill(
     req.body,

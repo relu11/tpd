@@ -1,6 +1,8 @@
 import express from 'express';
-import { getAllEmployees, getEmployee } from '../controllers/employees';
+import dbConnection from '../db';
+import { DATABASE_URL } from '../config';
 import { loggedIn, tpdOnly, managerOnly } from '../services/Authorization';
+import { getAllEmployees, getEmployee } from '../controllers/employees';
 
 const router = express.Router();
 
@@ -10,7 +12,15 @@ const router = express.Router();
  * @RequestQueryParameters [filters]
  * @Response Employee List
  */
-router.get('/', getAllEmployees);
+router.get('/', loggedIn, tpdOnly, (req, res) => {
+  console.log(DATABASE_URL);
+  var sql = 'select * from employees_profiles';
+
+  dbConnection.query(sql, function (err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
+});
 
 /**
  * Get employee data
