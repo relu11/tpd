@@ -121,27 +121,25 @@ function ResourceRequests() {
                             filterRows(requests)
                                 .sort(
                                     (a, b) =>
-                                        new Date(b.start_date) -
-                                        new Date(a.start_date)
+                                        new Date(b.createdAt) -
+                                        new Date(a.createdAt)
                                 )
                                 .map(row => (
-                                    <TableRow key={row.reference_number}>
+                                    <TableRow key={row.referenceNumber}>
                                         <TableCell component='th' scope='row'>
-                                            {row.reference_number}
+                                            {row.referenceNumber}
                                         </TableCell>
-                                        <TableCell>
-                                            {row.manager_name}
-                                        </TableCell>
+                                        <TableCell>{row.managerName}</TableCell>
                                         <TableCell>{row.function}</TableCell>
                                         <TableCell>{row.title}</TableCell>
                                         <TableCell>
                                             {new Date(
-                                                row.start_date
+                                                row.startDate
                                             ).toDateString()}
                                         </TableCell>
                                         <TableCell>
                                             {new Date(
-                                                row.end_date
+                                                row.endDate
                                             ).toDateString()}
                                         </TableCell>
                                         <TableCell>{row.propability}</TableCell>
@@ -158,14 +156,14 @@ function ResourceRequests() {
                                                 <Link
                                                     aria-label='edit'
                                                     component={IconButton}
-                                                    to={`/requests/resource/${row.reference_number}/edit`}
+                                                    to={`/requests/resource/${row.referenceNumber}/edit`}
                                                 >
                                                     <EditIcon color='primary' />
                                                 </Link>
                                                 <Link
                                                     aria-label='history'
                                                     component={IconButton}
-                                                    to={`/requests/resource/${row.reference_number}/history`}
+                                                    to={`/requests/resource/${row.referenceNumber}/history`}
                                                 >
                                                     <HistoryIcon color='primary' />
                                                 </Link>

@@ -1,20 +1,49 @@
-import Model from "./Model";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
+import Skill from '../models/Skill';
 
-class EmployeeSkills extends Model {
-  constructor(employeeID, skillId, experienceLevel, lastDateUsed) {
-    super("employee_skills");
+class EmployeeSkill extends Model {
+  static async getSkills(id) {
+    EmployeeSkill.belongsTo(Skill, { foreignKey: 'skillId' });
 
-    this.employeeID = employeeID;
-    this.skillId = skillId;
-    this.experienceLevel = experienceLevel;
-    this.lastDateUsed = lastDateUsed;
+    const employeeSkills = await EmployeeSkill.findAll({
+      where: {
+        employeeId: id,
+      },
+      include: [{ model: Skill, required: true, attributes: ['skillName'] }],
+    });
+
+    return employeeSkills;
   }
 
-  static async getSkills(employeeID) {
-    const sql = `select * from employee_skills,skills where employee_id = "${employeeID}" and employee_skills.skill_id = skills.skill_id`;
-    const result = await this.query(sql);
-    return result;
+  static async getSkill(skillID, empId) {
+    EmployeeSkill.belongsTo(Skill, { foreignKey: 'skillId' });
+
+    const employeeSkill = await EmployeeSkill.findOne({
+      where: {
+        employeeId: empId,
+        skillId: skillID,
+      },
+      include: [{ model: Skill, required: true, attributes: ['skillName'] }],
+    });
+
+    return employeeSkill;
   }
 }
 
-export default EmployeeSkills;
+EmployeeSkill.init(
+  {
+    employeeId: { type: DataTypes.STRING(36), primaryKey: true },
+    skillId: { type: DataTypes.INTEGER, primaryKey: true },
+    experienceLevel: { type: DataTypes.STRING(32) },
+    lastUsedDate: { type: DataTypes.DATE },
+  },
+  {
+    sequelize,
+    modelName: 'EmployeeSkill',
+    tableName: 'EmployeeSkills',
+    timestamps: false,
+  }
+);
+
+export default EmployeeSkill;

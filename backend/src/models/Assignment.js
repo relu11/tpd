@@ -1,19 +1,25 @@
-const { default: Model } = require("./Model");
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-class Assignment extends Model {
-  constructor(id, employeeID, workgroup, costCenter, SDMReportingManager, allocationPercentage,
-    startDate, releaseDate) {
-    super('');
+class Assignment extends Model {}
 
-    this.id = id;
-    this.employeeID = employeeID;
-    this.workgroup = workgroup;
-    this.costCenter = costCenter;
-    this.SDMReportingManager = SDMReportingManager;
-    this.allocationPercentage = allocationPercentage;
-    this.startDate = startDate;
-    this.releaseDate = releaseDate;
+Assignment.init(
+  {
+    assignmentId: { type: DataTypes.INTEGER, primaryKey: true },
+    employeeId: { type: DataTypes.STRING(36) },
+    workgroup: { type: DataTypes.STRING(128) },
+    costCenter: { type: DataTypes.STRING(128) },
+    sdmReportingManager: { type: DataTypes.STRING },
+    allocationPercentage: { type: DataTypes.INTEGER },
+    startDate: { type: DataTypes.DATE },
+    releaseDate: { type: DataTypes.DATE },
+  },
+  {
+    sequelize,
+    modelName: 'Assignment',
+    freezeTableName: true,
+    timestamps: false,
   }
-}
+);
 
 export default Assignment;

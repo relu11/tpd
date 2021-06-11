@@ -3,6 +3,8 @@ import dbConnection from '../db';
 import { DATABASE_URL } from '../config';
 import { loggedIn, tpdOnly, managerOnly } from '../services/Authorization';
 import { getEmployee } from '../controllers/employees';
+import { getAllEmployees, getEmployee } from '../controllers/employees';
+
 const router = express.Router();
 
 /**

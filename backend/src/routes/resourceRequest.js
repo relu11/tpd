@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 import {
   getAllResourceRequests,
   exportResourceRequests,
@@ -6,7 +6,8 @@ import {
   getResourceRequest,
   editResourceRequest,
   getResourceRequestsActions,
-} from "../controllers";
+} from '../controllers';
+import { loggedIn, managerOnly } from '../services/Authorization';
 
 const router = express.Router();
 
@@ -15,21 +16,21 @@ const router = express.Router();
  * @Authorization [Manager, TPD]
  * @Response Resource Requests List
  */
-router.get("/", getAllResourceRequests);
+router.get('/', loggedIn, managerOnly, getAllResourceRequests);
 
 /**
  * Export Resource Requests
  * @Authorization [Manager, TPD]
  * @Response Resource Requests List
  */
-router.get("/export", exportResourceRequests);
+router.get('/export', loggedIn, managerOnly, exportResourceRequests);
 
 /**
  * Add Resource Request
  * @Authorization [Manager, TPD]
  * @RequestBody Resource Request Data
  */
-router.post("/", addResourceRequest);
+router.post('/', loggedIn, managerOnly, addResourceRequest);
 
 /**
  * Get a Resource Request
@@ -37,7 +38,7 @@ router.post("/", addResourceRequest);
  * @RequestParameters Request ID
  * @Response Resource request data
  */
-router.get("/:requestId", getResourceRequest);
+router.get('/:requestId', loggedIn, managerOnly, getResourceRequest);
 
 /**
  * Edit a Resource Request
@@ -46,13 +47,13 @@ router.get("/:requestId", getResourceRequest);
  * @RequestBody Updated Data
  * @Response Resource request after modification
  */
-router.patch("/:requestId", editResourceRequest);
+router.patch('/:requestId', loggedIn, managerOnly, editResourceRequest);
 
 /**
  * Get Resource Request Actions
  * @Authorization [TPD]
  * @Response All Resource Request Actions
  */
-router.get("/actions", getResourceRequestsActions);
+router.get('/actions', loggedIn, managerOnly, getResourceRequestsActions);
 
 export default router;

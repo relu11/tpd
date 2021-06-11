@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 function AddReleaseRequest() {
     const [managerName, setManagerName] = useState('');
-    const [employeeID, setEmployeeID] = useState('');
+    const [employeeId, setEmployeeId] = useState('');
     const [employeeFunction, SetemployeeFunction] = useState('');
     const [probability, setProbability] = useState('');
     const [employeeName, setEmployeeName] = useState('');
@@ -47,16 +47,15 @@ function AddReleaseRequest() {
         let release_date = new Date(releaseDate);
         release_date = `${release_date.getFullYear()}-${release_date.getMonth()}-${release_date.getDate()}`;
         const data = {
-            manager_name: managerName,
-            employee_id: employeeID,
+            managerName,
+            employeeId,
             function: employeeFunction,
             probability,
-            employee_name: employeeName,
-            employee_title: employeeTitle,
-            release_date,
-            release_percentage: releasePercentage,
-            release_reason: releaseReason,
-            request_status: 'open',
+            employeeName,
+            employeeTitle,
+            releaseDate: release_date,
+            releasePercentage,
+            releaseReason,
             leaving,
         };
         console.log(data);
@@ -104,9 +103,9 @@ function AddReleaseRequest() {
                                 className={classes.formField}
                                 size='small'
                                 variant='outlined'
-                                value={employeeID}
+                                value={employeeId}
                                 label='Employee ID'
-                                onChange={e => setEmployeeID(e.target.value)}
+                                onChange={e => setEmployeeId(e.target.value)}
                             />
                         </Grid>
                         <Grid item sm={6}>

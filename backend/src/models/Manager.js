@@ -1,32 +1,19 @@
-import Employee from "./Employee";
-import Model from "./Model";
-import dbConnection from "../db";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-class Manager extends Model {
-  constructor(id, name) {
-    super("");
+class Manager extends Model {}
 
-    this.id = id;
-    this.name = name;
+Manager.init(
+  {
+    id: { type: DataTypes.STRING(36), primaryKey: true },
+    name: { type: DataTypes.STRING },
+  },
+  {
+    sequelize,
+    modelName: 'Manager',
+    tableName: 'Managers',
+    timestamps: false,
   }
-  static getManagers(callback) {
-    var sql = `select * from managers`;
-
-    dbConnection.query(sql, function (err, result) {
-      console.log(result);
-      if (err) throw err;
-      callback(result);
-    });
-  }
-  static getManagers(id, callback) {
-    var sql = `select * from managers WHERE id = "${id}"`;
-
-    dbConnection.query(sql, function (err, result) {
-      console.log(result);
-      if (err) throw err;
-      callback(result[0]);
-    });
-  }
-}
+);
 
 export default Manager;

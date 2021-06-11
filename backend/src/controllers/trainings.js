@@ -1,5 +1,5 @@
 import express from 'express';
-
+import TrainingService from '../services/TrainingService';
 /**
  * Gets all trainings of an employee
  * @param {express.Request} req - Request Object
@@ -7,8 +7,9 @@ import express from 'express';
  * @param {express.Response} res - Response Object
  */
 export const getEmployeeTrainings = (req, res) => {
-  res.send('Gets all trainings of an employee');
-}
+  const trainings = TrainingService.getEmployeeTraining(req.user.employeeId);
+  res.send({ trainings });
+};
 
 /**
  * Gets the tracking list of employees trainings
@@ -16,6 +17,7 @@ export const getEmployeeTrainings = (req, res) => {
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getTrainingsHistory = (req, res) => {
-  res.send('Gets the tracking list of employees trainings');
-}
+export const getAllTrainings = (req, res) => {
+  const trainings = TrainingService.getAllTrainings();
+  res.send({ trainings });
+};

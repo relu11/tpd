@@ -59,7 +59,7 @@ function EditReleaseRequest() {
     const classes = useStyles();
 
     const handleChange = e => {
-        if (e.target.name === 'action_taken')
+        if (e.target.name === 'actionTaken')
             dispatch(updateCurrentReleaseRequest({ actionChanged: true }));
         dispatch(
             updateCurrentReleaseRequest({ [e.target.name]: e.target.value })
@@ -68,7 +68,7 @@ function EditReleaseRequest() {
 
     const handleReleaseDateChange = date => {
         date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-        dispatch(updateCurrentReleaseRequest({ release_date: date }));
+        dispatch(updateCurrentReleaseRequest({ releaseDate: date }));
     };
 
     const handleSubmit = e => {
@@ -103,8 +103,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='manager_name'
-                                        value={currentRequest.reference_number}
+                                        name='referenceNumber'
+                                        value={currentRequest.referenceNumber}
                                         label='Reference Number'
                                         disabled
                                     />
@@ -114,8 +114,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='manager_name'
-                                        value={currentRequest.manager_name}
+                                        name='managerName'
+                                        value={currentRequest.managerName}
                                         label='Manager'
                                         onChange={handleChange}
                                     />
@@ -125,8 +125,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='employee_name'
-                                        value={currentRequest.employee_name}
+                                        name='employeeName'
+                                        value={currentRequest.employeeName}
                                         label='Employee Name'
                                         onChange={handleChange}
                                     />
@@ -136,8 +136,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='employee_id'
-                                        value={currentRequest.employee_id}
+                                        name='employeeId'
+                                        value={currentRequest.employeeId}
                                         label='Employee ID'
                                         onChange={handleChange}
                                     />
@@ -147,8 +147,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='employee_title'
-                                        value={currentRequest.employee_title}
+                                        name='employeeTitle'
+                                        value={currentRequest.employeeTitle}
                                         label='Employee Title'
                                         onChange={handleChange}
                                     />
@@ -171,13 +171,11 @@ function EditReleaseRequest() {
                                         margin='normal'
                                         label='Release Date'
                                         value={
-                                            new Date(
-                                                currentRequest.release_date
-                                            )
+                                            new Date(currentRequest.releaseDate)
                                         }
                                         onChange={handleReleaseDateChange}
                                         KeyboardButtonProps={{
-                                            name: 'release_date',
+                                            name: 'releaseDate',
                                             'aria-label': 'choose date',
                                         }}
                                     />
@@ -199,10 +197,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='release_percentage'
-                                        value={
-                                            currentRequest.release_percentage
-                                        }
+                                        name='releasePercentage'
+                                        value={currentRequest.releasePercentage}
                                         label='Percentage'
                                         onChange={handleChange}
                                     />
@@ -212,8 +208,8 @@ function EditReleaseRequest() {
                                         className={classes.formField}
                                         size='small'
                                         variant='outlined'
-                                        name='release_reason'
-                                        value={currentRequest.release_reason}
+                                        name='releaseReason'
+                                        value={currentRequest.releaseReason}
                                         label='Release Reason'
                                         onChange={handleChange}
                                     />
@@ -230,10 +226,8 @@ function EditReleaseRequest() {
                                             className={classes.selectField}
                                             labelId='status-select-label'
                                             variant='outlined'
-                                            value={
-                                                currentRequest.request_status
-                                            }
-                                            name='request_status'
+                                            value={currentRequest.requestStatus}
+                                            name='requestStatus'
                                             onChange={handleChange}
                                         >
                                             <MenuItem value='open'>
@@ -266,8 +260,8 @@ function EditReleaseRequest() {
                                             className={classes.selectField}
                                             labelId='action-taken-select-label'
                                             variant='outlined'
-                                            value={currentRequest.action_taken}
-                                            name='action_taken'
+                                            value={currentRequest.actionTaken}
+                                            name='actionTaken'
                                             onChange={handleChange}
                                             disabled={
                                                 currentRequest.hasActionTaken

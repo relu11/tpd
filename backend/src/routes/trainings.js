@@ -1,5 +1,6 @@
 import express from 'express';
-import { getEmployeeTrainings, getTrainingsHistory } from '../controllers';
+import { getEmployeeTraining } from '../controllers/trainings';
+import { loggedIn, tpdOnly, managerOnly } from '../services/Authorization';
 
 const router = express.Router();
 
@@ -8,13 +9,13 @@ const router = express.Router();
  * @Authorization [Employee]
  * @Response Trainings List
  */
-router.get('/my/', getEmployeeTrainings)
+router.get('/my/', loggedIn);
 
 /**
  * Employees Trainings History
  * @Authorization [TPD]
  * @Response List of history of employees' trainings
  */
-router.get('/tracking/history', getTrainingsHistory)
+router.get('/tracking/history');
 
 export default router;

@@ -8,8 +8,9 @@ import EmployeeSkillsService from '../services/EmployeeSkillsService';
  * @param {Object} req.user - Authorized user data
  * @param {express.Response} res - Response Object
  */
-export const getAllEmployees = (req, res) => {
-  res.send('Get All Employees');
+export const getAllEmployees = async (req, res) => {
+  const employees = await EmployeeService.getEmployeesList();
+  res.send({ employees });
 };
 
 /**
@@ -25,7 +26,7 @@ export const getEmployee = async (req, res) => {
   );
 
   res.send(employeeProfile);
-};
+
 
 /**
  * Edits an Employee Assignment

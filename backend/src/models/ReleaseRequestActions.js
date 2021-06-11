@@ -1,14 +1,20 @@
-import Model from "./Model";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../db';
 
-class ReleaseRequestActions extends Model {
-  constructor(actionId, requestReferenceNumber, action, actionNote) {
-    super('');
+class ReleaseRequestActions extends Model {}
 
-    this.actionId = actionId;
-    this.requestReferenceNumber = requestReferenceNumber;
-    this.action = action;
-    this.actionNote = actionNote;
+ReleaseRequestActions.init(
+  {
+    actionId: { type: DataTypes.INTEGER, primaryKey: true },
+    action: { type: DataTypes.STRING(32) },
+    actionNote: { type: DataTypes.STRING(64) },
+  },
+  {
+    sequelize,
+    modelName: 'ReleaseRequestActions',
+    freezeTableName: true,
+    timestamps: false,
   }
-}
+);
 
 export default ReleaseRequestActions;

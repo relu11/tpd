@@ -10,16 +10,15 @@ const initialState = {
     requests: [],
     currentRequest: null,
     filters: {
-        manager_name: '',
-        employee_title: '',
+        managerName: '',
+        employeeTitle: '',
         function: '',
-        employee_name: '',
-        request_status: '',
+        employeeName: '',
+        requestStatus: '',
     },
 };
 
 export const formatRequest = request => {
-    request.probability = request.propability;
     if (typeof request.release_date !== Date)
         request.release_date = new Date(request.release_date);
     request.release_date = `${request.release_date.getFullYear()}-${
@@ -30,26 +29,32 @@ export const formatRequest = request => {
 
 export const fetchReleaseRequests = createAsyncThunk(
     'release/fetchRequests',
-    async () => {
+    async (_, { getState }) => {
+        const state = getState();
         const requestOptions = {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
         };
         console.log(`${API_URL}/requests/release`);
         const res = await fetch(`${API_URL}/requests/release`, requestOptions);
         const { requests } = await res.json();
-        // requests.map(r => formatRequest(r));
         return requests;
     }
 );
 
 export const postReleaseRequest = createAsyncThunk(
     'release/postRequest',
-    async request => {
+    async (request, { getState }) => {
+        const state = getState();
         // Post the request to the api
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
             body: JSON.stringify(request),
         };
         await fetch(`${API_URL}/requests/release`, requestOptions);
@@ -59,14 +64,18 @@ export const postReleaseRequest = createAsyncThunk(
 
 export const patchReleaseRequest = createAsyncThunk(
     'release/patchRequest',
-    async request => {
+    async (request, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
             body: JSON.stringify(request),
         };
         await fetch(
-            `${API_URL}/requests/release/${request.reference_number}`,
+            `${API_URL}/requests/release/${request.referenceNumber}`,
             requestOptions
         );
     }
@@ -74,9 +83,13 @@ export const patchReleaseRequest = createAsyncThunk(
 
 export const deleteReleaseRequest = createAsyncThunk(
     'release/deleteRequest',
-    async requestId => {
+    async (requestId, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
+            },
         };
         await fetch(`${API_URL}/requests/release/${requestId}`, requestOptions);
     }
@@ -84,12 +97,14 @@ export const deleteReleaseRequest = createAsyncThunk(
 
 export const getReleaseRequest = createAsyncThunk(
     'release/getRequest',
-    async requestId => {
+    async (requestId, { getState }) => {
+        const state = getState();
         const requestOptions = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
+                Authorization: `Bearer ${state.auth.currentUser.token}`,
             },
         };
         const res = await fetch(
@@ -97,7 +112,7 @@ export const getReleaseRequest = createAsyncThunk(
             requestOptions
         );
         const { request } = await res.json();
-        request.hasActionTaken = request.action_taken ? true : false;
+        request.hasActionTaken = request.actionTaken ? true : false;
         return formatRequest(request);
     }
 );
@@ -128,7 +143,6 @@ export const requestsSlice = createSlice({
         updateCurrentReleaseRequest: (state, action) => {
             Object.keys(action.payload).map(key => {
                 state.currentRequest[key] = action.payload[key];
-                console.log(state.currentRequest[key]);
             });
         },
     },
